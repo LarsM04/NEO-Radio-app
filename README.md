@@ -48,9 +48,9 @@ maken de eerste ontwerpen. Met welke techniek we de app bouwen, bepalen we nog.
 
 | Naam          | Rol |
 | ------------- | --- |
-| _naam_        |     |
-| _naam_        |     |
-| _naam_        |     |
+| _Lars_        |     |
+| _Sultan_        |     |
+| _Duzyano_        |     |
 
 ## Opdrachtgever
 
