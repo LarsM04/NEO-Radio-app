@@ -67,4 +67,4 @@ Website: [neoradio.nl](https://www.neoradio.nl)
 | [`04-ontwerp`](04-ontwerp/)                           | Schetsen, wireframes, designs en prototype       |
 | [`05-app`](05-app/)                                   | De code van de app                               |
 
-Hoe we bestanden noemen en toevoegen, staat in [WERKAFSPRAKEN.md](WERKAFSPRAKEN.md).
+Hoe we bestanden toevoegen, staat in [WERKAFSPRAKEN.md](WERKAFSPRAKEN.md).
