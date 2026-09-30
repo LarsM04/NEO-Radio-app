@@ -1,14 +1,5 @@
 # Werkafspraken
 
-## Bestandsnamen
-
-Zo blijft alles makkelijk terug te vinden:
-
-- **Kleine letters** en **streepjes** in plaats van spaties: `plan-van-aanpak.pdf`, niet `Plan Van Aanpak (1).pdf`.
-- Begin met een **datum** als volgorde belangrijk is: `2026-10-07-notulen-teammeeting.md`.
-- Zet er een **versie** achter bij meerdere versies: `wireframe-homescreen-v2.png`.
-- Geen namen als `definitief-echt-definitief.docx`, gebruik versienummers.
-
 ## Bestanden toevoegen
 
 **Via de website van GitHub (makkelijkst):**
