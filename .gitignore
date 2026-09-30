@@ -1,0 +1,11 @@
+# Systeembestanden van macOS en Windows
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Tijdelijke bestanden van Word, Excel en PowerPoint
+~$*
+
+# Editor-instellingen
+.vscode/
+.idea/
