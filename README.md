@@ -1,58 +1,70 @@
 # NEO Radio app
 
-Schoolopdracht: het ontwerpen en bouwen van een app voor NEO Radio.
+Een app voor **NEO Radio**, de lokale internetradio uit Noorden. Met de app kun je
+live luisteren, live kijken, de voetbaluitslagen volgen en het laatste nieuws lezen.
+Alles wat op de website staat, komt ook in de app.
 
-## Mappenstructuur
+Dit is een schoolproject van de opleiding **Software Development**, in opdracht van NEO Radio.
 
-```
-NEO-Radio-app/
-├── 01-documenten/            Alle schoolse documenten
-│   ├── opdracht/             Briefing, opdrachtomschrijving, beoordelingscriteria
-│   ├── plan-van-aanpak/      Plan van aanpak en planning
-│   ├── notulen/              Aantekeningen van (team)meetings
-│   ├── presentaties/         Presentaties en pitches
-│   └── feedback/             Feedback van docenten en opdrachtgever
-│
-├── 02-trello/                Ons Trello-bord (link + screenshots van de voortgang)
-│   └── screenshots/
-│
-├── 03-huisstijl-onderzoek/   Onderzoek naar de huisstijl van de huidige NEO Radio site
-│   ├── screenshots/          Screenshots van de huidige website
-│   ├── logo/                 Logo('s) en varianten
-│   ├── kleuren/              Kleurenpalet (hex-codes, stalen)
-│   ├── typografie/           Lettertypes en tekststijlen
-│   └── beeldmateriaal/       Foto's, iconen, illustraties
-│
-├── 04-ontwerp/               Ons eigen ontwerp van de app
-│   ├── schetsen/             Eerste ideeën, papieren schetsen
-│   ├── wireframes/           Wireframes (lo-fi)
-│   ├── designs/              Uitgewerkte schermen (hi-fi)
-│   └── prototype/            Klikbare prototypes / links naar Figma
-│
-└── 05-app/                   De code van de app zelf
-```
+## Over NEO Radio
 
-Elke hoofdmap heeft een eigen `README.md` met uitleg over wat erin hoort.
+NEO Radio is een lokale internetradio met verschillende programma's, zoals:
 
-## Afspraken over bestandsnamen
+- **Aanvallen en Verdedigen**: live sportverslag op zaterdag en zondag
+- **Nathans Nummers**
+- **Kale Kenner**
+- **Politiek**
+- en nog veel meer
 
-Zo blijft alles makkelijk terug te vinden:
+Naast de website [neoradio.nl](https://www.neoradio.nl) wil NEO Radio nu ook een eigen app.
 
-- **Kleine letters** en **streepjes** in plaats van spaties: `plan-van-aanpak.pdf`, niet `Plan Van Aanpak (1).pdf`.
-- Begin met een **datum** als volgorde belangrijk is: `2026-10-07-notulen-teammeeting.md`.
-- Zet er een **versie** achter bij meerdere versies: `wireframe-homescreen-v2.png`.
-- Geen namen als `definitief-echt-definitief.docx` — gebruik versienummers.
+## Wat gaat de app doen?
 
-## Bestanden toevoegen
+| Onderdeel          | Wat kun je ermee                                                  |
+| ------------------ | ----------------------------------------------------------------- |
+| **Home**           | Overzicht van wat er nu speelt en het laatste nieuws              |
+| **Live score**     | Live voetbaluitslagen die automatisch bijwerken                   |
+| **Nieuws**         | Nieuwsartikelen en voetbalverslagen lezen                         |
+| **Live luisteren** | De live audiostream van NEO Radio                                 |
+| **Live kijken**    | De live videostream van NEO Radio                                 |
+| **Info**           | Informatie over NEO Radio, de programma's en contactgegevens      |
 
-**Via de website van GitHub (makkelijkst):**
+## Eisen van de opdrachtgever
 
-1. Ga naar de juiste map in de repository.
-2. Klik op **Add file → Upload files**.
-3. Sleep je bestanden erin, schrijf een korte beschrijving en klik op **Commit changes**.
+- De app werkt op **iPhone, iPad en Android**.
+- NEO Radio kan de content **zelf aanpassen** via een eenvoudig **admin-systeem**.
+- **Live scores en nieuws werken automatisch bij** zodra NEO Radio de website bijwerkt.
+- De app gebruikt de **vormgeving en huisstijl van NEO Radio**.
 
-**Via GitHub Desktop of de terminal:** zet het bestand in de juiste map, maak een commit
-met een duidelijke beschrijving (bijv. "Screenshots homepage toegevoegd") en push.
+Binnen NEO Radio is al een prototype gemaakt, deels met AI, als voorbeeld van hoe de
+app eruit kan zien. Dat gebruiken we als startpunt.
 
-> Het bestand `.gitkeep` in lege mappen zorgt er alleen voor dat de map op GitHub
-> zichtbaar is. Je mag het laten staan of verwijderen zodra er iets in de map staat.
+## Status
+
+🟡 **Onderzoek en ontwerp.** We onderzoeken de huisstijl van de huidige website en
+maken de eerste ontwerpen. Met welke techniek we de app bouwen, bepalen we nog.
+
+## Team
+
+| Naam          | Rol |
+| ------------- | --- |
+| _naam_        |     |
+| _naam_        |     |
+| _naam_        |     |
+
+## Opdrachtgever
+
+**NEO Radio**, Noorden
+Website: [neoradio.nl](https://www.neoradio.nl)
+
+## Waar vind je wat?
+
+| Map                                                   | Inhoud                                           |
+| ----------------------------------------------------- | ------------------------------------------------ |
+| [`01-documenten`](01-documenten/)                     | Opdracht, plan van aanpak, notulen, feedback     |
+| [`02-trello`](02-trello/)                             | Link naar ons Trello-bord en de voortgang        |
+| [`03-huisstijl-onderzoek`](03-huisstijl-onderzoek/)   | Onderzoek naar de huisstijl van de huidige site  |
+| [`04-ontwerp`](04-ontwerp/)                           | Schetsen, wireframes, designs en prototype       |
+| [`05-app`](05-app/)                                   | De code van de app                               |
+
+Hoe we bestanden noemen en toevoegen, staat in [WERKAFSPRAKEN.md](WERKAFSPRAKEN.md).
