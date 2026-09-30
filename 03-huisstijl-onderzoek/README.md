@@ -1,7 +1,7 @@
 # 03 – Huisstijl-onderzoek
 
-Onderzoek naar de huisstijl van de **huidige NEO Radio website**. Het verslag zelf
-kan hier ook in (bijv. `huisstijl-onderzoek.pdf`), het bronmateriaal gaat in de submappen.
+Onderzoek naar de huisstijl van de **huidige NEO Radio website**. Het verslag staat in
+[`huisstijl-onderzoek.md`](huisstijl-onderzoek.md), het bronmateriaal in de submappen.
 
 | Map               | Wat hoort erin                                                   |
 | ----------------- | ---------------------------------------------------------------- |
@@ -13,14 +13,14 @@ kan hier ook in (bijv. `huisstijl-onderzoek.pdf`), het bronmateriaal gaat in de 
 
 ## Checklist: waar kijk je naar?
 
-- [ ] **Logo** – vorm, varianten, plaatsing, witruimte
-- [ ] **Kleuren** – hoofdkleuren, accentkleuren, achtergrond (noteer de hex-codes)
-- [ ] **Typografie** – lettertypes voor koppen en tekst, groottes, dikte
-- [ ] **Beeldgebruik** – soort foto's, iconen, illustraties
-- [ ] **Layout** – opbouw van pagina's, grid, witruimte, navigatie
-- [ ] **Tone of voice** – hoe spreken ze de luisteraar aan (formeel/informeel, je/u)
-- [ ] **Doelgroep** – voor wie lijkt de site bedoeld?
-- [ ] **Sterke en zwakke punten** – wat werkt goed, wat kan beter?
-- [ ] **Conclusie** – wat nemen we mee naar het ontwerp van de app?
+- [x] **Logo** – vorm, varianten, plaatsing, witruimte
+- [x] **Kleuren** – hoofdkleuren, accentkleuren, achtergrond (noteer de hex-codes)
+- [x] **Typografie** – lettertypes voor koppen en tekst, groottes, dikte
+- [x] **Beeldgebruik** – soort foto's, iconen, illustraties
+- [x] **Layout** – opbouw van pagina's, grid, witruimte, navigatie
+- [x] **Tone of voice** – hoe spreken ze de luisteraar aan (formeel/informeel, je/u)
+- [x] **Doelgroep** – voor wie lijkt de site bedoeld?
+- [x] **Sterke en zwakke punten** – wat werkt goed, wat kan beter?
+- [x] **Conclusie** – wat nemen we mee naar het ontwerp van de app?
 
 Tip: noteer bij screenshots de datum en de pagina, bijv. `2026-10-07-homepage-mobiel.png`.
