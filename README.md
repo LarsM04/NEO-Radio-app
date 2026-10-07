@@ -50,6 +50,7 @@ app eruit kan zien. Dat gebruiken we als startpunt.
 | Huisstijl-onderzoek           | ✅     | [Huisstijl-onderzoek](03-onderzoek/huisstijl/huisstijl-onderzoek.md)                      |
 | Onderzoek techniek en hosting | ✅     | [Techniek en hosting](03-onderzoek/techniek-en-hosting/onderzoek-techniek-en-hosting.pdf) |
 | Ontwerp van de app            | 🟡     | [Ontwerpdocument](04-ontwerp/designs/ontwerpdocument-neo-radio-app.pdf)                   |
+| Technisch ontwerp             | 🟡     | [Technisch ontwerp](04-ontwerp/technisch-ontwerp/technisch-ontwerp-neo-radio-app.pdf)     |
 | Bouwen van de app             | ⬜     | [`05-app`](05-app/)                                                                       |
 
 **Gekozen techniek** (uit het onderzoek techniek en hosting):
@@ -79,7 +80,7 @@ Website: [neoradio.nl](https://www.neoradio.nl)
 | [`01-documenten`](01-documenten/)                     | Debriefing, plan van aanpak, notulen, feedback   |
 | [`02-trello`](02-trello/)                             | Link naar ons Trello-bord en de voortgang        |
 | [`03-onderzoek`](03-onderzoek/)                       | Huisstijl-onderzoek en onderzoek techniek/hosting |
-| [`04-ontwerp`](04-ontwerp/)                           | Ontwerpdocument, schetsen, wireframes, prototype |
+| [`04-ontwerp`](04-ontwerp/)                           | Ontwerpdocument, technisch ontwerp, wireframes   |
 | [`05-app`](05-app/)                                   | De code van de app                               |
 
 Hoe we bestanden toevoegen, staat in [WERKAFSPRAKEN.md](WERKAFSPRAKEN.md).
