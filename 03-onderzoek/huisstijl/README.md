@@ -1,4 +1,4 @@
-# 03 – Huisstijl-onderzoek
+# Huisstijl-onderzoek
 
 Onderzoek naar de huisstijl van de **huidige NEO Radio website**. Het verslag staat in
 [`huisstijl-onderzoek.md`](huisstijl-onderzoek.md), het bronmateriaal in de submappen.
