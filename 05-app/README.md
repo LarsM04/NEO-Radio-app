@@ -3,7 +3,8 @@
 Hier komt de code van de NEO Radio app.
 
 Uit het [onderzoek techniek en hosting](../03-onderzoek/techniek-en-hosting/onderzoek-techniek-en-hosting.pdf)
-volgt dat we de app bouwen met **React Native + Expo**. De content halen we uit de bestaande
+volgt dat we de app bouwen met **React Native + Expo**. Hoe de app technisch in elkaar zit,
+staat in het [technisch ontwerp](../04-ontwerp/technisch-ontwerp/technisch-ontwerp-neo-radio-app.pdf). De content halen we uit de bestaande
 WordPress-website van NEO Radio via de WordPress REST API.
 
 Zodra we beginnen met bouwen, zetten we hier:
