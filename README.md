@@ -41,8 +41,23 @@ app eruit kan zien. Dat gebruiken we als startpunt.
 
 ## Status
 
-🟡 **Onderzoek en ontwerp.** We onderzoeken de huisstijl van de huidige website en
-maken de eerste ontwerpen. Met welke techniek we de app bouwen, bepalen we nog.
+🟡 **Ontwerp.** Het onderzoek is afgerond en het eerste ontwerpdocument staat klaar.
+
+| Fase                          | Status | Document                                                                                  |
+| ----------------------------- | :----: | ----------------------------------------------------------------------------------------- |
+| Debriefing met de klant       | ✅     | [Debriefing](01-documenten/opdracht/debriefing-neo-radio-app.pdf)                         |
+| Plan van aanpak               | ✅     | [Plan van aanpak](01-documenten/plan-van-aanpak/plan-van-aanpak-neo-radio.odt)            |
+| Huisstijl-onderzoek           | ✅     | [Huisstijl-onderzoek](03-onderzoek/huisstijl/huisstijl-onderzoek.md)                      |
+| Onderzoek techniek en hosting | ✅     | [Techniek en hosting](03-onderzoek/techniek-en-hosting/onderzoek-techniek-en-hosting.pdf) |
+| Ontwerp van de app            | 🟡     | [Ontwerpdocument](04-ontwerp/designs/ontwerpdocument-neo-radio-app.pdf)                   |
+| Bouwen van de app             | ⬜     | [`05-app`](05-app/)                                                                       |
+
+**Gekozen techniek** (uit het onderzoek techniek en hosting):
+
+- De app bouwen we met **React Native + Expo** (één codebase voor iPhone, iPad en Android).
+- De content komt uit de bestaande **WordPress**-website via de WordPress REST API.
+- Voor de live scores maken we een **eigen WordPress-plugin**, zodat NEO Radio alles in één
+  admin-systeem beheert. Er is geen extra server of hosting nodig.
 
 ## Team
 
@@ -61,10 +76,10 @@ Website: [neoradio.nl](https://www.neoradio.nl)
 
 | Map                                                   | Inhoud                                           |
 | ----------------------------------------------------- | ------------------------------------------------ |
-| [`01-documenten`](01-documenten/)                     | Opdracht, plan van aanpak, notulen, feedback     |
+| [`01-documenten`](01-documenten/)                     | Debriefing, plan van aanpak, notulen, feedback   |
 | [`02-trello`](02-trello/)                             | Link naar ons Trello-bord en de voortgang        |
-| [`03-huisstijl-onderzoek`](03-huisstijl-onderzoek/)   | Onderzoek naar de huisstijl van de huidige site  |
-| [`04-ontwerp`](04-ontwerp/)                           | Schetsen, wireframes, designs en prototype       |
+| [`03-onderzoek`](03-onderzoek/)                       | Huisstijl-onderzoek en onderzoek techniek/hosting |
+| [`04-ontwerp`](04-ontwerp/)                           | Ontwerpdocument, schetsen, wireframes, prototype |
 | [`05-app`](05-app/)                                   | De code van de app                               |
 
 Hoe we bestanden toevoegen, staat in [WERKAFSPRAKEN.md](WERKAFSPRAKEN.md).
