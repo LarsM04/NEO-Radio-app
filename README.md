@@ -49,6 +49,7 @@ app eruit kan zien. Dat gebruiken we als startpunt.
 | Plan van aanpak               | ✅     | [Plan van aanpak](01-documenten/plan-van-aanpak/plan-van-aanpak-neo-radio.odt)            |
 | Huisstijl-onderzoek           | ✅     | [Huisstijl-onderzoek](03-onderzoek/huisstijl/huisstijl-onderzoek.md)                      |
 | Onderzoek techniek en hosting | ✅     | [Techniek en hosting](03-onderzoek/techniek-en-hosting/onderzoek-techniek-en-hosting.pdf) |
+| Onderzoek website-kopie       | ✅     | [Website-kopie](03-onderzoek/website-kopie/onderzoek-website-kopie.pdf)                   |
 | Ontwerp van de app            | 🟡     | [Ontwerpdocument](04-ontwerp/designs/ontwerpdocument-neo-radio-app.pdf)                   |
 | Technisch ontwerp             | 🟡     | [Technisch ontwerp](04-ontwerp/technisch-ontwerp/technisch-ontwerp-neo-radio-app.pdf)     |
 | Bouwen van de app             | ⬜     | [`05-app`](05-app/)                                                                       |
