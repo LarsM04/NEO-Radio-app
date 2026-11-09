@@ -145,20 +145,38 @@ function neo_ls_rondedatum( $klasse_id ) {
  * Met $datum ("2026-10-10") alleen de wedstrijden van die dag.
  */
 function neo_ls_wedstrijden_ophalen( $klasse_id, $datum = null ) {
+	$voorwaarde = 'w.klasse_id = %d';
+	$args       = array( $klasse_id );
+
+	if ( $datum ) {
+		$voorwaarde .= ' AND DATE(w.aftrap) = %s';
+		$args[]      = $datum;
+	}
+	return neo_ls_wedstrijden_zoeken( $voorwaarde, $args );
+}
+
+/**
+ * Eén wedstrijd met clubs en gebeurtenissen, klaar voor JSON. Null als hij niet bestaat.
+ */
+function neo_ls_wedstrijd_json( $wedstrijd_id ) {
+	$gevonden = neo_ls_wedstrijden_zoeken( 'w.id = %d', array( $wedstrijd_id ) );
+	return $gevonden ? $gevonden[0] : null;
+}
+
+/**
+ * Zoekt wedstrijden met een WHERE-voorwaarde (met %-plekken voor $args).
+ * Gebruik liever neo_ls_wedstrijden_ophalen of neo_ls_wedstrijd_json.
+ */
+function neo_ls_wedstrijden_zoeken( $voorwaarde, $args ) {
 	global $wpdb;
 
-	$sql  = 'SELECT w.*, t.naam AS thuis_naam, t.logo AS thuis_logo, u.naam AS uit_naam, u.logo AS uit_logo
+	$sql  = "SELECT w.*, t.naam AS thuis_naam, t.logo AS thuis_logo, u.naam AS uit_naam, u.logo AS uit_logo
 		FROM %i w
 		JOIN %i t ON t.id = w.thuisclub_id
 		JOIN %i u ON u.id = w.uitclub_id
-		WHERE w.klasse_id = %d';
-	$args = array( neo_ls_tabel( 'wedstrijd' ), neo_ls_tabel( 'club' ), neo_ls_tabel( 'club' ), $klasse_id );
-
-	if ( $datum ) {
-		$sql   .= ' AND DATE(w.aftrap) = %s';
-		$args[] = $datum;
-	}
-	$sql .= ' ORDER BY w.aftrap, w.id';
+		WHERE $voorwaarde
+		ORDER BY w.aftrap, w.id";
+	$args = array_merge( array( neo_ls_tabel( 'wedstrijd' ), neo_ls_tabel( 'club' ), neo_ls_tabel( 'club' ) ), $args );
 
 	$wedstrijden = $wpdb->get_results( $wpdb->prepare( $sql, $args ) );
 
@@ -320,6 +338,47 @@ function neo_ls_gebeurtenis_verwijderen( $gebeurtenis_id ) {
 	} else {
 		neo_ls_wedstrijd_aangeraakt( $gebeurtenis->wedstrijd_id );
 	}
+	return true;
+}
+
+/**
+ * Past een bestaande gebeurtenis aan (soort, ploeg, minuut of speler).
+ * Wordt een doelpunt een kaart, of verandert de ploeg, dan klopt de stand daarna nog steeds.
+ */
+function neo_ls_gebeurtenis_aanpassen( $gebeurtenis_id, $kant, $type, $minuut = null, $speler = '' ) {
+	global $wpdb;
+	$tabel = neo_ls_tabel( 'gebeurtenis' );
+	$oud   = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM %i WHERE id = %d', $tabel, $gebeurtenis_id ) );
+
+	if ( ! $oud ) {
+		return new WP_Error( 'neo_gebeurtenis_onbekend', 'Deze gebeurtenis bestaat niet.' );
+	}
+	if ( ! in_array( $kant, NEO_LS_KANTEN, true ) || ! in_array( $type, NEO_LS_TYPES, true ) ) {
+		return new WP_Error( 'neo_ongeldig', 'Kies thuis of uit, en doelpunt, gele of rode kaart.' );
+	}
+	if ( null !== $minuut && ( $minuut < 1 || $minuut > 130 ) ) {
+		return new WP_Error( 'neo_ongeldig', 'De minuut moet tussen 1 en 130 liggen.' );
+	}
+
+	$wpdb->update(
+		$tabel,
+		array(
+			'kant'   => $kant,
+			'type'   => $type,
+			'minuut' => $minuut,
+			'speler' => sanitize_text_field( $speler ),
+		),
+		array( 'id' => $gebeurtenis_id )
+	);
+
+	// Eerst het oude doelpunt van de stand af, daarna het nieuwe erbij.
+	if ( 'doelpunt' === $oud->type ) {
+		neo_ls_score_aanpassen( $oud->wedstrijd_id, $oud->kant, -1 );
+	}
+	if ( 'doelpunt' === $type ) {
+		neo_ls_score_aanpassen( $oud->wedstrijd_id, $kant, 1 );
+	}
+	neo_ls_wedstrijd_aangeraakt( $oud->wedstrijd_id );
 	return true;
 }
 

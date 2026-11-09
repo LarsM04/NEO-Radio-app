@@ -19,6 +19,7 @@ define( 'NEO_LS_PAD', plugin_dir_path( __FILE__ ) );
 require_once NEO_LS_PAD . 'includes/database.php';
 require_once NEO_LS_PAD . 'includes/wedstrijden.php';
 require_once NEO_LS_PAD . 'includes/rest-api.php';
+require_once NEO_LS_PAD . 'includes/rest-beheer.php';
 
 // De schermen in het WordPress-beheer.
 if ( is_admin() ) {

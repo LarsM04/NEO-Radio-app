@@ -15,7 +15,8 @@ het in elkaar zit, staat in het
 | Logica voor doelpunten, kaarten en status (stand en ruststand gaan vanzelf) | ✅ |
 | Testdata met WP-CLI | ✅ |
 | Beheerschermen: wedstrijden per dag, speelronde aanmaken, clubs, seizoenen en klassen | ✅ |
-| Invoerpagina langs het veld (`/live-invoer`) en endpoints om te schrijven | ⬜ |
+| Inloggen vanuit de app en endpoints om te schrijven (voor het beheer in de app) | ✅ |
+| Doorgeefluik om de lokale site vanaf je telefoon te bereiken | ✅ |
 | Shortcode voor de website | ⬜ |
 | Clubs en logo's overzetten uit Soccer Live Scores | ⬜ |
 
@@ -27,7 +28,8 @@ het in elkaar zit, staat in het
 └── includes/
     ├── database.php        Tabellen (dbDelta) en rechten
     ├── wedstrijden.php     Ophalen en aanpassen van wedstrijden, doelpunten en kaarten
-    ├── rest-api.php        De endpoints die de app gebruikt
+    ├── rest-api.php        De endpoints die de app gebruikt om te lezen
+    ├── rest-beheer.php     Inloggen en scores invoeren vanuit de app
     ├── testdata.php        WP-CLI-commando met de voorbeelden uit het ontwerpdocument
     └── admin/              De schermen onder "Live score" in het WordPress-beheer
         ├── algemeen.php    Menu en hulpfuncties
@@ -35,6 +37,8 @@ het in elkaar zit, staat in het
         ├── speelronde.php  Speelronde aanmaken
         ├── clubs.php       Clubs met logo
         └── seizoenen.php   Seizoenen en klassen
+06-plugin/ontwikkelen/
+└── doorgeefluik.js         Maakt de lokale site bereikbaar voor de app op je telefoon
 06-plugin/neo-live-score/assets/
 ├── admin.css               Opmaak van de beheerschermen
 └── admin.js                Logo kiezen en de rijen bij Speelronde aanmaken
@@ -79,6 +83,24 @@ wp neo-livescore testdata --leeg --live   # plus een ronde van vandaag: bezig, r
 
 `--leeg` maakt eerst alle tabellen van de plugin leeg. Met `--live` kun je het automatisch
 verversen in de app testen.
+
+Het commando maakt ook twee testaccounts met de rol *Live-score medewerker*: `test-medewerker`
+en `test-theo` (Theo houdt in de `--live`-ronde de wedstrijd in de rust bij). Het wachtwoord
+staat bovenaan [`includes/testdata.php`](neo-live-score/includes/testdata.php). Deze accounts zijn
+alleen voor de lokale testsite.
+
+## De app op je telefoon laten praten met je lokale site
+
+LocalWP is alleen op je eigen laptop bereikbaar. Het doorgeefluik maakt de live-score-API
+(en alleen die) bereikbaar op je wifi-netwerk:
+
+```bash
+node 06-plugin/ontwikkelen/doorgeefluik.js
+```
+
+Het laat zien op welk adres het bereikbaar is. De app vindt het vanzelf; zie
+[05-app/README.md](../05-app/README.md#beheer-live-score-invoeren). Vraagt Windows of Node.js
+het netwerk op mag, klik dan op *Toestaan*.
 
 ## Endpoints
 
@@ -125,3 +147,25 @@ kun je het live-score-scherm bouwen zonder de lokale WordPress.
 
 Bovenaan `/livescore` staat ook `"live": true` als er ergens een wedstrijd bezig of in de rust
 is. Alleen dan hoeft de app elke 10 seconden te verversen.
+
+## Endpoints voor het beheer in de app
+
+Voor medewerkers met het recht `neo_livescore_invoeren`. Na het inloggen stuurt de app het token
+mee in de header `X-NEO-Token`. In de database staat alleen een hash van het token; een token
+is 30 dagen geldig. Na 5 verkeerde wachtwoorden moet je een kwartier wachten.
+
+| Endpoint | Wat het doet |
+| --- | --- |
+| `POST /neo/v1/inloggen` | `{ gebruikersnaam, wachtwoord }` → `{ token, gebruiker }` |
+| `POST /neo/v1/uitloggen` | Maakt het token ongeldig |
+| `GET /neo/v1/beheer/wedstrijden?datum=` | Wedstrijden van één dag (standaard vandaag), met wie ze bijhoudt |
+| `GET /neo/v1/beheer/wedstrijden/{id}` | Eén wedstrijd |
+| `POST /neo/v1/beheer/wedstrijden/{id}/bijhouden` | Wedstrijd gaan bijhouden. `{ overnemen: true }` kan alleen een beheerder |
+| `POST /neo/v1/beheer/wedstrijden/{id}/status` | `{ status }`: gepland, bezig, rust of afgelopen |
+| `POST /neo/v1/beheer/wedstrijden/{id}/gebeurtenissen` | `{ kant, type, minuut?, speler? }`. Zonder minuut: de minuut van nu |
+| `PUT /neo/v1/beheer/gebeurtenissen/{id}` | Gebeurtenis aanpassen; de stand past zich aan |
+| `DELETE /neo/v1/beheer/gebeurtenissen/{id}` | Gebeurtenis verwijderen (ook voor *Ongedaan maken*) |
+
+Een wedstrijd die iemand anders bijhoudt, kun je niet aanpassen (fout 409). Een vrije wedstrijd
+wordt vanzelf van jou zodra je iets invoert.
+

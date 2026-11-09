@@ -4,6 +4,12 @@
 //
 //   wp neo-livescore testdata --leeg          alles leegmaken en opnieuw vullen
 //   wp neo-livescore testdata --leeg --live   idem, plus een speelronde van vandaag die nu bezig is
+//
+// Het commando maakt ook twee testaccounts met de rol "Live-score medewerker" om in de app
+// mee in te loggen: test-medewerker en test-theo, allebei met wachtwoord NEO_LS_TEST_WACHTWOORD.
+// Die accounts horen alleen in de lokale testomgeving, nooit op de echte website.
+
+const NEO_LS_TEST_WACHTWOORD = 'neo-test-2026';
 
 defined( 'ABSPATH' ) || exit;
 
@@ -40,6 +46,10 @@ function neo_ls_cli_testdata( $args, $opties ) {
 	} elseif ( $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM %i', neo_ls_tabel( 'club' ) ) ) > 0 ) {
 		WP_CLI::error( 'Er staat al data in de tabellen. Gebruik --leeg om alles te vervangen.' );
 	}
+
+	// Testaccounts voor het beheer in de app.
+	neo_ls_td_gebruiker( 'test-medewerker', 'Test Medewerker' );
+	$theo = neo_ls_td_gebruiker( 'test-theo', 'Theo' );
 
 	// Seizoen en klassen.
 	$wpdb->insert( neo_ls_tabel( 'seizoen' ), array( 'naam' => '2025-2026', 'actief' => 0 ) );
@@ -119,16 +129,37 @@ function neo_ls_cli_testdata( $args, $opties ) {
 			),
 			wp_date( 'Y-m-d H:i:s', $nu - 21 * 60 )
 		);
-		// In de rust.
-		neo_ls_td_wedstrijd(
+		// In de rust, en Theo houdt hem bij.
+		$rust = neo_ls_td_wedstrijd(
 			$klasse4, $club['TAVV'], $club['Woerden'], wp_date( 'Y-m-d H:i', $nu - 50 * 60 ), 'rust', null, array( 0, 0 ),
 			array( array( 'uit', 'geel', 44, '' ) )
 		);
+		$wpdb->update( neo_ls_tabel( 'wedstrijd' ), array( 'bijgehouden_door' => $theo ), array( 'id' => $rust ) );
 		// Begint over een uur.
 		neo_ls_td_wedstrijd( $klasse4, $club['Altior'], $club['AVV Alphen'], wp_date( 'Y-m-d H:i', $nu + 60 * 60 ), 'gepland' );
 	}
 
-	WP_CLI::success( 'Testdata staat klaar. Bekijk /wp-json/neo/v1/livescore.' );
+	WP_CLI::success( 'Testdata staat klaar. Bekijk /wp-json/neo/v1/livescore. Inloggen in de app kan met test-medewerker of test-theo.' );
+}
+
+/**
+ * Maakt een testaccount met de rol Live-score medewerker, als dat nog niet bestaat.
+ */
+function neo_ls_td_gebruiker( $login, $naam ) {
+	$bestaand = get_user_by( 'login', $login );
+	if ( $bestaand ) {
+		return $bestaand->ID;
+	}
+	return wp_insert_user(
+		array(
+			'user_login'   => $login,
+			'user_pass'    => NEO_LS_TEST_WACHTWOORD,
+			'user_email'   => $login . '@neoradio.local',
+			'display_name' => $naam,
+			'first_name'   => $naam,
+			'role'         => 'neo_livescore_medewerker',
+		)
+	);
 }
 
 function neo_ls_td_klasse( $seizoen_id, $naam, $korte_naam, $volgorde ) {
