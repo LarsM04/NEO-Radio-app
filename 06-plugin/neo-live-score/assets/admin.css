@@ -1,0 +1,346 @@
+/* Opmaak van de live-score-schermen in het WordPress-beheer.
+   Kleuren uit het huisstijl-onderzoek (03-onderzoek/huisstijl). */
+
+.neo-ls {
+	--neo-groen: #81bb19;
+	--neo-donkergroen: #355f13;
+	--neo-lichtgroen: #f3f6ee;
+	--neo-rand: #e3ead8;
+	--neo-rood: #e2000e;
+	--neo-zwart: #171614;
+	--neo-grijs: #575760;
+	max-width: 1200px;
+}
+
+.neo-ls-kop {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 16px;
+	margin: 12px 0 4px;
+}
+.neo-ls-kop h1 {
+	padding: 0;
+	font-size: 26px;
+	font-weight: 700;
+}
+.neo-ls-uitleg {
+	margin: 4px 0 0;
+	color: var(--neo-grijs);
+}
+
+/* Knoppen in donkergroen */
+.neo-ls .button-primary {
+	background: var(--neo-donkergroen);
+	border-color: var(--neo-donkergroen);
+}
+.neo-ls .button-primary:hover,
+.neo-ls .button-primary:focus {
+	background: #2a4c0f;
+	border-color: #2a4c0f;
+}
+.neo-ls .button-link-delete {
+	color: var(--neo-rood);
+}
+
+/* Twee kolommen: links de lijst, rechts het formulier */
+.neo-ls-kolommen {
+	display: grid;
+	grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+	gap: 20px;
+	align-items: start;
+	margin-top: 16px;
+}
+.neo-ls-kolommen.smal-breed {
+	grid-template-columns: minmax(240px, 1fr) minmax(0, 2.2fr);
+}
+@media (max-width: 960px) {
+	.neo-ls-kolommen,
+	.neo-ls-kolommen.smal-breed {
+		grid-template-columns: 1fr;
+	}
+}
+
+.neo-ls-kaart {
+	background: #fff;
+	border: 1px solid #dcdcde;
+	border-radius: 10px;
+	padding: 16px 18px;
+	margin-bottom: 20px;
+}
+.neo-ls-kaart h2 {
+	margin: 0 0 12px;
+	font-size: 16px;
+}
+.neo-ls-kaart-kop {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	margin-bottom: 12px;
+}
+.neo-ls-kaart-kop h2 {
+	margin: 0;
+}
+
+/* Tabellen */
+.neo-ls table.widefat {
+	border: 0;
+	box-shadow: none;
+}
+.neo-ls table.widefat td,
+.neo-ls table.widefat th {
+	vertical-align: middle;
+}
+.neo-ls .neo-ls-klein {
+	color: var(--neo-grijs);
+	font-size: 12px;
+}
+
+/* Iets met het attribuut hidden is altijd onzichtbaar, ook als een andere regel display zet. */
+.neo-ls [hidden] {
+	display: none !important;
+}
+
+/* Schakelaar actief / niet-actief */
+.neo-ls-schakel {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 4px 0;
+	border: 0;
+	background: none;
+	cursor: pointer;
+	font-weight: 600;
+	color: var(--neo-grijs);
+}
+.neo-ls-schakel-knop {
+	position: relative;
+	width: 36px;
+	height: 20px;
+	border-radius: 999px;
+	background: #c3c4c7;
+	transition: background 0.15s;
+}
+.neo-ls-schakel-knop::after {
+	content: "";
+	position: absolute;
+	top: 2px;
+	left: 2px;
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	background: #fff;
+	transition: left 0.15s;
+}
+.neo-ls-schakel.aan {
+	color: var(--neo-zwart);
+}
+.neo-ls-schakel.aan .neo-ls-schakel-knop {
+	background: var(--neo-donkergroen);
+}
+.neo-ls-schakel.aan .neo-ls-schakel-knop::after {
+	left: 18px;
+}
+
+/* Clublogo's */
+.neo-ls-logo {
+	display: inline-block;
+	border-radius: 50%;
+	object-fit: contain;
+	background: #fff;
+	vertical-align: middle;
+}
+.neo-ls-logo-leeg {
+	background: var(--neo-lichtgroen);
+	border: 1px solid var(--neo-rand);
+	box-sizing: border-box;
+}
+.neo-ls-club {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+}
+
+/* Labels en statussen */
+.neo-ls-label {
+	display: inline-block;
+	padding: 2px 10px;
+	border-radius: 999px;
+	font-size: 12px;
+	font-weight: 600;
+	background: var(--neo-groen);
+	color: var(--neo-zwart);
+}
+.neo-ls-status {
+	display: inline-block;
+	padding: 2px 10px;
+	border-radius: 999px;
+	font-size: 12px;
+	font-weight: 600;
+	background: var(--neo-lichtgroen);
+	color: var(--neo-zwart);
+	border: 1px solid var(--neo-rand);
+}
+.neo-ls-status-bezig {
+	background: var(--neo-rood);
+	border-color: var(--neo-rood);
+	color: #fff;
+}
+.neo-ls-status-rust {
+	background: var(--neo-zwart);
+	border-color: var(--neo-zwart);
+	color: #fff;
+}
+.neo-ls-status-afgelopen {
+	background: var(--neo-donkergroen);
+	border-color: var(--neo-donkergroen);
+	color: #fff;
+}
+
+/* Filters bovenaan een lijst */
+.neo-ls-filters {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	align-items: center;
+	margin-bottom: 12px;
+}
+.neo-ls-tabs {
+	display: inline-flex;
+	background: var(--neo-lichtgroen);
+	border: 1px solid var(--neo-rand);
+	border-radius: 8px;
+	padding: 3px;
+}
+.neo-ls-tabs a {
+	padding: 4px 12px;
+	border-radius: 6px;
+	text-decoration: none;
+	color: var(--neo-zwart);
+	font-weight: 600;
+}
+.neo-ls-tabs a.actief {
+	background: var(--neo-zwart);
+	color: #fff;
+}
+
+/* Formulieren */
+.neo-ls-veld {
+	margin-bottom: 14px;
+}
+.neo-ls-veld label,
+.neo-ls-veld .neo-ls-veldnaam {
+	display: block;
+	font-weight: 600;
+	margin-bottom: 4px;
+}
+.neo-ls-veld input[type="text"],
+.neo-ls-veld input[type="date"],
+.neo-ls-veld input[type="time"],
+.neo-ls-veld select {
+	width: 100%;
+	max-width: 100%;
+}
+.neo-ls-velden-rij {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 12px;
+}
+@media (max-width: 782px) {
+	.neo-ls-velden-rij {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+.neo-ls-knoppen {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	flex-wrap: wrap;
+}
+.neo-ls form.inline {
+	display: inline;
+}
+
+/* Logo kiezen */
+.neo-ls-logo-kiezer {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 12px;
+	border: 1px dashed var(--neo-groen);
+	border-radius: 8px;
+	background: var(--neo-lichtgroen);
+}
+
+/* Seizoenen */
+.neo-ls-seizoen {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px 12px;
+	border: 1px solid #dcdcde;
+	border-radius: 8px;
+	margin-bottom: 8px;
+	text-decoration: none;
+	color: var(--neo-zwart);
+}
+.neo-ls-seizoen.gekozen {
+	background: var(--neo-lichtgroen);
+	border-color: var(--neo-groen);
+}
+.neo-ls-seizoen strong {
+	display: block;
+}
+
+/* Speelronde */
+.neo-ls-ronde td {
+	padding: 6px 8px;
+}
+.neo-ls-ronde select {
+	min-width: 160px;
+	max-width: 100%;
+}
+.neo-ls-ronde input[type="time"] {
+	width: 120px;
+}
+.neo-ls-chips {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 8px;
+}
+.neo-ls-chip {
+	padding: 8px 10px;
+	border: 1px solid var(--neo-rand);
+	background: var(--neo-lichtgroen);
+	border-radius: 8px;
+	font-weight: 600;
+	cursor: pointer;
+	text-align: center;
+}
+.neo-ls-chip:hover {
+	border-color: var(--neo-groen);
+}
+
+/* Wedstrijden van een dag */
+.neo-ls-datumnav {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	flex-wrap: wrap;
+	margin: 16px 0;
+}
+.neo-ls-datumnav h2 {
+	margin: 0 8px;
+	font-size: 18px;
+}
+.neo-ls-stand {
+	font-size: 16px;
+	font-weight: 700;
+	white-space: nowrap;
+}
+.neo-ls-leeg {
+	padding: 24px;
+	text-align: center;
+	color: var(--neo-grijs);
+}

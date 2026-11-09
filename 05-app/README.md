@@ -46,7 +46,8 @@ zodat je een versie krijgt die bij onze Expo-versie past.
     │       └── kijken.js
     ├── api/wordpress.js    Alle verzoeken naar de WordPress-website
     ├── components/         Herbruikbare onderdelen (knoppen, kaarten, ...)
-    └── constants/          Kleuren van de huisstijl
+    ├── constants/          Kleuren van de huisstijl
+    └── data/               Voorbeeldantwoorden van de live-score-plugin (zie 06-plugin)
 ```
 
 Alleen schermen horen in `src/app/`. Componenten, hulpfuncties en dergelijke zet je in de
