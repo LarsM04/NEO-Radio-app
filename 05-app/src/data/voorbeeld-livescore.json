@@ -1,0 +1,129 @@
+{
+  "seizoen": "2026-2027",
+  "live": true,
+  "bijgewerkt": "2026-11-09T11:54:51+01:00",
+  "klassen": [
+    {
+      "id": 1,
+      "naam": "Tweede Klasse C West 2",
+      "korte_naam": "2e klasse",
+      "datum": "2026-11-09",
+      "wedstrijden": [
+        {
+          "id": 11,
+          "aftrap": "2026-11-09T10:32:00+01:00",
+          "status": "bezig",
+          "minuut": 67,
+          "thuis": {
+            "id": 3,
+            "naam": "Forum Sport",
+            "logo": "https://neoradio.nl/wp-content/uploads/2026/10/Forum-Sport-2026-10.png"
+          },
+          "uit": {
+            "id": 2,
+            "naam": "Wippolder",
+            "logo": null
+          },
+          "score": {
+            "thuis": 1,
+            "uit": 2
+          },
+          "rust": {
+            "thuis": 1,
+            "uit": 1
+          },
+          "gebeurtenissen": [
+            {
+              "id": 17,
+              "kant": "thuis",
+              "type": "doelpunt",
+              "minuut": 12,
+              "speler": "S. de Jong"
+            },
+            {
+              "id": 18,
+              "kant": "uit",
+              "type": "doelpunt",
+              "minuut": 34,
+              "speler": null
+            },
+            {
+              "id": 19,
+              "kant": "uit",
+              "type": "geel",
+              "minuut": 58,
+              "speler": "M. Kok"
+            },
+            {
+              "id": 20,
+              "kant": "uit",
+              "type": "doelpunt",
+              "minuut": 61,
+              "speler": "T. Bos"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "naam": "Vierde Klasse B West 2",
+      "korte_naam": "4e klasse",
+      "datum": "2026-11-09",
+      "wedstrijden": [
+        {
+          "id": 12,
+          "aftrap": "2026-11-09T11:04:00+01:00",
+          "status": "rust",
+          "minuut": null,
+          "thuis": {
+            "id": 5,
+            "naam": "TAVV",
+            "logo": "https://neoradio.nl/wp-content/uploads/2024/07/Logo_TAVV.png"
+          },
+          "uit": {
+            "id": 6,
+            "naam": "Woerden",
+            "logo": "https://neoradio.nl/wp-content/uploads/2026/09/Woerden-2026-09.jpg"
+          },
+          "score": {
+            "thuis": 0,
+            "uit": 0
+          },
+          "rust": {
+            "thuis": 0,
+            "uit": 0
+          },
+          "gebeurtenissen": [
+            {
+              "id": 21,
+              "kant": "uit",
+              "type": "geel",
+              "minuut": 44,
+              "speler": null
+            }
+          ]
+        },
+        {
+          "id": 13,
+          "aftrap": "2026-11-09T12:54:00+01:00",
+          "status": "gepland",
+          "minuut": null,
+          "thuis": {
+            "id": 7,
+            "naam": "Altior",
+            "logo": "https://neoradio.nl/wp-content/uploads/2024/11/Altior.png"
+          },
+          "uit": {
+            "id": 8,
+            "naam": "AVV Alphen",
+            "logo": "https://neoradio.nl/wp-content/uploads/2026/09/AVV-Alphen-2026-09.jpg"
+          },
+          "score": null,
+          "rust": null,
+          "gebeurtenissen": []
+        }
+      ]
+    }
+  ]
+}

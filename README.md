@@ -83,5 +83,6 @@ Website: [neoradio.nl](https://www.neoradio.nl)
 | [`03-onderzoek`](03-onderzoek/)                       | Huisstijl-onderzoek en onderzoek techniek/hosting |
 | [`04-ontwerp`](04-ontwerp/)                           | Ontwerpdocument, technisch ontwerp, wireframes   |
 | [`05-app`](05-app/)                                   | De code van de app                               |
+| [`06-plugin`](06-plugin/)                             | De WordPress-plugin voor de live scores          |
 
 Hoe we bestanden toevoegen, staat in [WERKAFSPRAKEN.md](WERKAFSPRAKEN.md).

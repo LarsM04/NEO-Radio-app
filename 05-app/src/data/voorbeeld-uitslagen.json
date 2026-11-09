@@ -1,0 +1,273 @@
+{
+  "klasse": {
+    "id": 2,
+    "naam": "Vierde Klasse B West 2",
+    "korte_naam": "4e klasse"
+  },
+  "speelrondes": [
+    {
+      "datum": "2026-10-10",
+      "wedstrijden": [
+        {
+          "id": 10,
+          "aftrap": "2026-10-10T14:30:00+02:00",
+          "status": "afgelopen",
+          "minuut": null,
+          "thuis": {
+            "id": 7,
+            "naam": "Altior",
+            "logo": "https://neoradio.nl/wp-content/uploads/2024/11/Altior.png"
+          },
+          "uit": {
+            "id": 8,
+            "naam": "AVV Alphen",
+            "logo": "https://neoradio.nl/wp-content/uploads/2026/09/AVV-Alphen-2026-09.jpg"
+          },
+          "score": {
+            "thuis": 7,
+            "uit": 1
+          },
+          "rust": {
+            "thuis": 3,
+            "uit": 0
+          },
+          "gebeurtenissen": [
+            {
+              "id": 9,
+              "kant": "thuis",
+              "type": "doelpunt",
+              "minuut": 8,
+              "speler": null
+            },
+            {
+              "id": 10,
+              "kant": "thuis",
+              "type": "doelpunt",
+              "minuut": 19,
+              "speler": null
+            },
+            {
+              "id": 11,
+              "kant": "thuis",
+              "type": "doelpunt",
+              "minuut": 33,
+              "speler": null
+            },
+            {
+              "id": 12,
+              "kant": "thuis",
+              "type": "doelpunt",
+              "minuut": 47,
+              "speler": null
+            },
+            {
+              "id": 13,
+              "kant": "thuis",
+              "type": "doelpunt",
+              "minuut": 56,
+              "speler": null
+            },
+            {
+              "id": 14,
+              "kant": "uit",
+              "type": "doelpunt",
+              "minuut": 64,
+              "speler": null
+            },
+            {
+              "id": 15,
+              "kant": "thuis",
+              "type": "doelpunt",
+              "minuut": 70,
+              "speler": null
+            },
+            {
+              "id": 16,
+              "kant": "thuis",
+              "type": "doelpunt",
+              "minuut": 84,
+              "speler": null
+            }
+          ]
+        },
+        {
+          "id": 9,
+          "aftrap": "2026-10-10T15:00:00+02:00",
+          "status": "afgelopen",
+          "minuut": null,
+          "thuis": {
+            "id": 5,
+            "naam": "TAVV",
+            "logo": "https://neoradio.nl/wp-content/uploads/2024/07/Logo_TAVV.png"
+          },
+          "uit": {
+            "id": 6,
+            "naam": "Woerden",
+            "logo": "https://neoradio.nl/wp-content/uploads/2026/09/Woerden-2026-09.jpg"
+          },
+          "score": {
+            "thuis": 1,
+            "uit": 0
+          },
+          "rust": {
+            "thuis": 0,
+            "uit": 0
+          },
+          "gebeurtenissen": [
+            {
+              "id": 7,
+              "kant": "uit",
+              "type": "geel",
+              "minuut": 44,
+              "speler": null
+            },
+            {
+              "id": 8,
+              "kant": "thuis",
+              "type": "doelpunt",
+              "minuut": 71,
+              "speler": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "datum": "2026-10-03",
+      "wedstrijden": [
+        {
+          "id": 2,
+          "aftrap": "2026-10-03T14:30:00+02:00",
+          "status": "afgelopen",
+          "minuut": null,
+          "thuis": {
+            "id": 9,
+            "naam": "Zwammerdam",
+            "logo": null
+          },
+          "uit": {
+            "id": 5,
+            "naam": "TAVV",
+            "logo": "https://neoradio.nl/wp-content/uploads/2024/07/Logo_TAVV.png"
+          },
+          "score": {
+            "thuis": 3,
+            "uit": 0
+          },
+          "rust": null,
+          "gebeurtenissen": []
+        },
+        {
+          "id": 3,
+          "aftrap": "2026-10-03T14:30:00+02:00",
+          "status": "afgelopen",
+          "minuut": null,
+          "thuis": {
+            "id": 10,
+            "naam": "Nicolaas Boys",
+            "logo": "https://neoradio.nl/wp-content/uploads/2024/07/NB-logo-01.webp"
+          },
+          "uit": {
+            "id": 7,
+            "naam": "Altior",
+            "logo": "https://neoradio.nl/wp-content/uploads/2024/11/Altior.png"
+          },
+          "score": {
+            "thuis": 1,
+            "uit": 1
+          },
+          "rust": null,
+          "gebeurtenissen": []
+        },
+        {
+          "id": 4,
+          "aftrap": "2026-10-03T14:30:00+02:00",
+          "status": "afgelopen",
+          "minuut": null,
+          "thuis": {
+            "id": 11,
+            "naam": "NSV'46",
+            "logo": null
+          },
+          "uit": {
+            "id": 12,
+            "naam": "Linschoten",
+            "logo": "https://neoradio.nl/wp-content/uploads/2024/10/Linschoten.png"
+          },
+          "score": {
+            "thuis": 1,
+            "uit": 2
+          },
+          "rust": null,
+          "gebeurtenissen": []
+        },
+        {
+          "id": 5,
+          "aftrap": "2026-10-03T14:30:00+02:00",
+          "status": "afgelopen",
+          "minuut": null,
+          "thuis": {
+            "id": 13,
+            "naam": "Aarlanderveen",
+            "logo": "https://neoradio.nl/wp-content/uploads/2024/11/sv-aarlanderveen.png"
+          },
+          "uit": {
+            "id": 14,
+            "naam": "Woubrugge",
+            "logo": "https://neoradio.nl/wp-content/uploads/2024/08/266px-Logo_VV_Woubrugge.png"
+          },
+          "score": {
+            "thuis": 1,
+            "uit": 2
+          },
+          "rust": null,
+          "gebeurtenissen": []
+        },
+        {
+          "id": 6,
+          "aftrap": "2026-10-03T14:30:00+02:00",
+          "status": "afgelopen",
+          "minuut": null,
+          "thuis": {
+            "id": 8,
+            "naam": "AVV Alphen",
+            "logo": "https://neoradio.nl/wp-content/uploads/2026/09/AVV-Alphen-2026-09.jpg"
+          },
+          "uit": {
+            "id": 15,
+            "naam": "KDO",
+            "logo": "https://neoradio.nl/wp-content/uploads/2025/09/KDO.png"
+          },
+          "score": {
+            "thuis": 1,
+            "uit": 4
+          },
+          "rust": null,
+          "gebeurtenissen": []
+        },
+        {
+          "id": 7,
+          "aftrap": "2026-10-03T14:30:00+02:00",
+          "status": "afgelopen",
+          "minuut": null,
+          "thuis": {
+            "id": 6,
+            "naam": "Woerden",
+            "logo": "https://neoradio.nl/wp-content/uploads/2026/09/Woerden-2026-09.jpg"
+          },
+          "uit": {
+            "id": 16,
+            "naam": "Koudekerk",
+            "logo": "https://neoradio.nl/wp-content/uploads/2026/09/Koudekerk-2026-09.png"
+          },
+          "score": {
+            "thuis": 2,
+            "uit": 2
+          },
+          "rust": null,
+          "gebeurtenissen": []
+        }
+      ]
+    }
+  ]
+}
