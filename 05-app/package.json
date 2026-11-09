@@ -13,7 +13,8 @@
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "react-native": "0.88.0",
-    "react-native-safe-area-context": "~5.10.1",
+    "react-native-render-html": "^6.3.4",
+    "react-native-safe-area-context": "~5.11.1",
     "react-native-screens": "~4.30.0",
     "react-native-web": "^0.21.4"
   },
@@ -23,5 +24,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web"
   },
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "typescript": "~6.0.3"
+  }
 }
