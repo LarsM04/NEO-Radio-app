@@ -10,8 +10,8 @@
 //   GET    /neo/v1/beheer/wedstrijden/{id}
 //   POST   /neo/v1/beheer/wedstrijden/{id}/bijhouden     { overnemen? }
 //   POST   /neo/v1/beheer/wedstrijden/{id}/status        { status }
-//   POST   /neo/v1/beheer/wedstrijden/{id}/gebeurtenissen { kant, type, minuut?, speler? }
-//   PUT    /neo/v1/beheer/gebeurtenissen/{id}            { kant, type, minuut, speler }
+//   POST   /neo/v1/beheer/wedstrijden/{id}/gebeurtenissen { kant, type, minuut?, extra?, speler? }
+//   PUT    /neo/v1/beheer/gebeurtenissen/{id}            { kant, type, minuut, extra, speler }
 //   DELETE /neo/v1/beheer/gebeurtenissen/{id}
 
 defined( 'ABSPATH' ) || exit;
@@ -132,6 +132,12 @@ function neo_ls_beheer_routes_registreren() {
 			'type'    => array( 'integer', 'null' ),
 			'minimum' => 1,
 			'maximum' => 130,
+		),
+		// Blessuretijd: bij minuut 45 of 90 het aantal minuten erbij (45+2 = minuut 45, extra 2).
+		'extra'  => array(
+			'type'    => array( 'integer', 'null' ),
+			'minimum' => 1,
+			'maximum' => 30,
 		),
 		'speler' => array(
 			'type'      => 'string',
@@ -294,6 +300,36 @@ function neo_ls_beheer_json( $wedstrijd_id ) {
 			'naam' => $door->display_name,
 		) : null,
 		'door_mij'           => (int) $ruw->bijgehouden_door === get_current_user_id(),
+		// Namen die eerder bij deze clubs zijn ingevuld, zodat je ze met één tik kiest.
+		'spelers'            => array(
+			'thuis' => neo_ls_bekende_spelers( (int) $ruw->thuisclub_id ),
+			'uit'   => neo_ls_bekende_spelers( (int) $ruw->uitclub_id ),
+		),
+	);
+}
+
+/**
+ * Spelersnamen die eerder bij een club zijn ingevuld (bij doelpunten en kaarten),
+ * de laatst gebruikte eerst. Zo hoeft langs het veld niemand namen opnieuw te typen.
+ */
+function neo_ls_bekende_spelers( $club_id, $maximaal = 30 ) {
+	global $wpdb;
+	return $wpdb->get_col(
+		$wpdb->prepare(
+			"SELECT g.speler
+			FROM %i g
+			JOIN %i w ON w.id = g.wedstrijd_id
+			WHERE g.speler <> ''
+				AND ( ( g.kant = 'thuis' AND w.thuisclub_id = %d ) OR ( g.kant = 'uit' AND w.uitclub_id = %d ) )
+			GROUP BY g.speler
+			ORDER BY MAX(g.aangemaakt) DESC, g.speler
+			LIMIT %d",
+			neo_ls_tabel( 'gebeurtenis' ),
+			neo_ls_tabel( 'wedstrijd' ),
+			$club_id,
+			$club_id,
+			$maximaal
+		)
 	);
 }
 
@@ -404,10 +440,25 @@ function neo_ls_rest_gebeurtenis_toevoegen( WP_REST_Request $verzoek ) {
 		return $mag;
 	}
 
-	// Geen minuut meegegeven? Dan de minuut waarin de wedstrijd nu is.
-	$minuut = $verzoek->has_param( 'minuut' ) ? $verzoek['minuut'] : neo_ls_huidige_minuut( $wedstrijd );
+	// Een doelpunt of kaart terwijl de wedstrijd nog op Gepland staat? Dan is hij dus
+	// begonnen en is alleen vergeten de status te zetten. Eerst op Bezig zetten, anders
+	// toont de app nog geen stand en is er geen minuut.
+	if ( 'gepland' === $wedstrijd->status ) {
+		neo_ls_status_zetten( $wedstrijd->id, 'bezig' );
+		$wedstrijd = neo_ls_wedstrijd( $wedstrijd->id );
+	}
 
-	$id = neo_ls_gebeurtenis_toevoegen( $wedstrijd->id, $verzoek['kant'], $verzoek['type'], $minuut, (string) $verzoek['speler'] );
+	// Geen minuut meegegeven? Dan de minuut waarin de wedstrijd nu is (ook in blessuretijd).
+	if ( $verzoek->has_param( 'minuut' ) ) {
+		$minuut = $verzoek['minuut'];
+		$extra  = $verzoek['extra'];
+	} else {
+		$nu     = neo_ls_huidige_minuut( $wedstrijd );
+		$minuut = $nu['minuut'] ?? null;
+		$extra  = $nu['extra'] ?? null;
+	}
+
+	$id = neo_ls_gebeurtenis_toevoegen( $wedstrijd->id, $verzoek['kant'], $verzoek['type'], $minuut, (string) $verzoek['speler'], $extra );
 	if ( is_wp_error( $id ) ) {
 		return neo_ls_rest_fout( $id );
 	}
@@ -429,7 +480,7 @@ function neo_ls_rest_gebeurtenis_aanpassen( WP_REST_Request $verzoek ) {
 		return $mag;
 	}
 
-	$resultaat = neo_ls_gebeurtenis_aanpassen( (int) $verzoek['id'], $verzoek['kant'], $verzoek['type'], $verzoek['minuut'], (string) $verzoek['speler'] );
+	$resultaat = neo_ls_gebeurtenis_aanpassen( (int) $verzoek['id'], $verzoek['kant'], $verzoek['type'], $verzoek['minuut'], (string) $verzoek['speler'], $verzoek['extra'] );
 	if ( is_wp_error( $resultaat ) ) {
 		return neo_ls_rest_fout( $resultaat );
 	}

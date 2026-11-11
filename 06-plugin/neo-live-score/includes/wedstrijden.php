@@ -9,6 +9,9 @@ const NEO_LS_STATUSSEN = array( 'gepland', 'bezig', 'rust', 'afgelopen' );
 const NEO_LS_TYPES     = array( 'doelpunt', 'geel', 'rood' );
 const NEO_LS_KANTEN    = array( 'thuis', 'uit' );
 
+// Na deze minuten kan er blessuretijd komen: 45+2, 90+3.
+const NEO_LS_EINDE_HELFT = array( 45, 90 );
+
 /* ------------------------------------------------------------------
  * Tijd
  * Alle tijden staan in de database in de tijdzone van de website
@@ -41,8 +44,9 @@ function neo_ls_iso( $datumtijd ) {
 }
 
 /**
- * De minuut waarin een wedstrijd nu is. Eerste helft: vanaf de aftrap (maximaal 45).
- * Tweede helft: 45 plus de tijd sinds start_tweede_helft (maximaal 90).
+ * De minuut waarin een wedstrijd nu is, als array( 'minuut' => 67, 'extra' => null ).
+ * Eerste helft: vanaf de aftrap. Na 45 minuten wordt het blessuretijd: 45+1, 45+2 ...
+ * Tweede helft: 45 plus de tijd sinds start_tweede_helft. Na 90 minuten: 90+1, 90+2 ...
  * Geeft null als de wedstrijd niet bezig is.
  */
 function neo_ls_huidige_minuut( $wedstrijd ) {
@@ -51,12 +55,46 @@ function neo_ls_huidige_minuut( $wedstrijd ) {
 	}
 
 	if ( $wedstrijd->start_tweede_helft ) {
-		$seconden = time() - neo_ls_tijdstempel( $wedstrijd->start_tweede_helft );
-		return min( 90, 46 + intdiv( max( 0, $seconden ), 60 ) );
+		$gespeeld = 46 + intdiv( max( 0, time() - neo_ls_tijdstempel( $wedstrijd->start_tweede_helft ) ), 60 );
+		$einde    = 90;
+	} else {
+		$gespeeld = 1 + intdiv( max( 0, time() - neo_ls_tijdstempel( $wedstrijd->aftrap ) ), 60 );
+		$einde    = 45;
 	}
 
-	$seconden = time() - neo_ls_tijdstempel( $wedstrijd->aftrap );
-	return min( 45, 1 + intdiv( max( 0, $seconden ), 60 ) );
+	if ( $gespeeld > $einde ) {
+		return array(
+			'minuut' => $einde,
+			'extra'  => min( 30, $gespeeld - $einde ),
+		);
+	}
+	return array(
+		'minuut' => $gespeeld,
+		'extra'  => null,
+	);
+}
+
+/**
+ * Minuut als tekst, bijvoorbeeld "67" of "45+2". Null als er geen minuut is.
+ */
+function neo_ls_minuut_tekst( $minuut, $extra = null ) {
+	if ( null === $minuut ) {
+		return null;
+	}
+	return $extra ? $minuut . '+' . $extra : (string) $minuut;
+}
+
+/**
+ * Controleert een minuut en blessuretijd. Geeft een WP_Error of true.
+ */
+function neo_ls_minuut_controleren( $minuut, $extra ) {
+	if ( null !== $minuut && ( $minuut < 1 || $minuut > 130 ) ) {
+		return new WP_Error( 'neo_ongeldig', 'De minuut moet tussen 1 en 130 liggen.' );
+	}
+	if ( null !== $extra && ( ! in_array( (int) $minuut, NEO_LS_EINDE_HELFT, true ) || $extra < 1 || $extra > 30 ) ) {
+		return new WP_Error( 'neo_ongeldig', 'Blessuretijd kan alleen na de 45e of 90e minuut, en is 1 tot 30 minuten.' );
+	}
+	return true;
 }
 
 /* ------------------------------------------------------------------
@@ -187,7 +225,7 @@ function neo_ls_wedstrijden_zoeken( $voorwaarde, $args ) {
 		$plekken = implode( ',', array_fill( 0, count( $ids ), '%d' ) );
 		$rijen   = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT * FROM %i WHERE wedstrijd_id IN ($plekken) ORDER BY minuut IS NULL, minuut, id",
+				"SELECT * FROM %i WHERE wedstrijd_id IN ($plekken) ORDER BY minuut IS NULL, minuut, extra, id",
 				array_merge( array( neo_ls_tabel( 'gebeurtenis' ) ), $ids )
 			)
 		);
@@ -228,12 +266,17 @@ function neo_ls_klasse_als_json( $klasse ) {
 
 function neo_ls_wedstrijd_als_json( $wedstrijd, $gebeurtenissen ) {
 	$gestart = 'gepland' !== $wedstrijd->status;
+	$nu      = neo_ls_huidige_minuut( $wedstrijd );
 
 	return array(
 		'id'             => (int) $wedstrijd->id,
 		'aftrap'         => neo_ls_iso( $wedstrijd->aftrap ),
 		'status'         => $wedstrijd->status,
-		'minuut'         => neo_ls_huidige_minuut( $wedstrijd ),
+		// De minuut waarin de wedstrijd nu is (alleen bij "bezig"). In blessuretijd is
+		// minuut 45 of 90 en extra het aantal minuten erbij; minuut_tekst is dan "45+2".
+		'minuut'         => $nu['minuut'] ?? null,
+		'extra'          => $nu['extra'] ?? null,
+		'minuut_tekst'   => $nu ? neo_ls_minuut_tekst( $nu['minuut'], $nu['extra'] ) : null,
 		'thuis'          => array(
 			'id'   => (int) $wedstrijd->thuisclub_id,
 			'naam' => $wedstrijd->thuis_naam,
@@ -265,7 +308,9 @@ function neo_ls_gebeurtenis_als_json( $gebeurtenis ) {
 		'id'     => (int) $gebeurtenis->id,
 		'kant'   => $gebeurtenis->kant,
 		'type'   => $gebeurtenis->type,
-		'minuut' => null === $gebeurtenis->minuut ? null : (int) $gebeurtenis->minuut,
+		'minuut'       => null === $gebeurtenis->minuut ? null : (int) $gebeurtenis->minuut,
+		'extra'        => null === $gebeurtenis->extra ? null : (int) $gebeurtenis->extra,
+		'minuut_tekst' => neo_ls_minuut_tekst( $gebeurtenis->minuut, $gebeurtenis->extra ),
 		'speler' => '' !== $gebeurtenis->speler ? $gebeurtenis->speler : null,
 	);
 }
@@ -280,7 +325,7 @@ function neo_ls_gebeurtenis_als_json( $gebeurtenis ) {
  * Voegt een doelpunt of kaart toe. Bij een doelpunt gaat de stand vanzelf omhoog.
  * Geeft het id van de nieuwe gebeurtenis, of een WP_Error.
  */
-function neo_ls_gebeurtenis_toevoegen( $wedstrijd_id, $kant, $type, $minuut = null, $speler = '' ) {
+function neo_ls_gebeurtenis_toevoegen( $wedstrijd_id, $kant, $type, $minuut = null, $speler = '', $extra = null ) {
 	global $wpdb;
 
 	if ( ! neo_ls_wedstrijd( $wedstrijd_id ) ) {
@@ -289,8 +334,9 @@ function neo_ls_gebeurtenis_toevoegen( $wedstrijd_id, $kant, $type, $minuut = nu
 	if ( ! in_array( $kant, NEO_LS_KANTEN, true ) || ! in_array( $type, NEO_LS_TYPES, true ) ) {
 		return new WP_Error( 'neo_ongeldig', 'Kies thuis of uit, en doelpunt, gele of rode kaart.' );
 	}
-	if ( null !== $minuut && ( $minuut < 1 || $minuut > 130 ) ) {
-		return new WP_Error( 'neo_ongeldig', 'De minuut moet tussen 1 en 130 liggen.' );
+	$controle = neo_ls_minuut_controleren( $minuut, $extra );
+	if ( is_wp_error( $controle ) ) {
+		return $controle;
 	}
 
 	$gelukt = $wpdb->insert(
@@ -300,6 +346,7 @@ function neo_ls_gebeurtenis_toevoegen( $wedstrijd_id, $kant, $type, $minuut = nu
 			'kant'         => $kant,
 			'type'         => $type,
 			'minuut'       => $minuut,
+			'extra'        => $extra,
 			'speler'       => sanitize_text_field( $speler ),
 			'aangemaakt'   => neo_ls_nu(),
 		)
@@ -345,7 +392,7 @@ function neo_ls_gebeurtenis_verwijderen( $gebeurtenis_id ) {
  * Past een bestaande gebeurtenis aan (soort, ploeg, minuut of speler).
  * Wordt een doelpunt een kaart, of verandert de ploeg, dan klopt de stand daarna nog steeds.
  */
-function neo_ls_gebeurtenis_aanpassen( $gebeurtenis_id, $kant, $type, $minuut = null, $speler = '' ) {
+function neo_ls_gebeurtenis_aanpassen( $gebeurtenis_id, $kant, $type, $minuut = null, $speler = '', $extra = null ) {
 	global $wpdb;
 	$tabel = neo_ls_tabel( 'gebeurtenis' );
 	$oud   = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM %i WHERE id = %d', $tabel, $gebeurtenis_id ) );
@@ -356,8 +403,9 @@ function neo_ls_gebeurtenis_aanpassen( $gebeurtenis_id, $kant, $type, $minuut = 
 	if ( ! in_array( $kant, NEO_LS_KANTEN, true ) || ! in_array( $type, NEO_LS_TYPES, true ) ) {
 		return new WP_Error( 'neo_ongeldig', 'Kies thuis of uit, en doelpunt, gele of rode kaart.' );
 	}
-	if ( null !== $minuut && ( $minuut < 1 || $minuut > 130 ) ) {
-		return new WP_Error( 'neo_ongeldig', 'De minuut moet tussen 1 en 130 liggen.' );
+	$controle = neo_ls_minuut_controleren( $minuut, $extra );
+	if ( is_wp_error( $controle ) ) {
+		return $controle;
 	}
 
 	$wpdb->update(
@@ -366,6 +414,7 @@ function neo_ls_gebeurtenis_aanpassen( $gebeurtenis_id, $kant, $type, $minuut = 
 			'kant'   => $kant,
 			'type'   => $type,
 			'minuut' => $minuut,
+			'extra'  => $extra,
 			'speler' => sanitize_text_field( $speler ),
 		),
 		array( 'id' => $gebeurtenis_id )

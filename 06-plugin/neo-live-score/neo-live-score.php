@@ -12,7 +12,7 @@
 defined( 'ABSPATH' ) || exit;
 
 define( 'NEO_LS_VERSIE', '0.1.0' );
-define( 'NEO_LS_DB_VERSIE', '2' );
+define( 'NEO_LS_DB_VERSIE', '3' );
 define( 'NEO_LS_BESTAND', __FILE__ );
 define( 'NEO_LS_PAD', plugin_dir_path( __FILE__ ) );
 

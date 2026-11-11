@@ -82,8 +82,8 @@ function neo_ls_pagina_wedstrijden() {
 			$ruw    = neo_ls_wedstrijd( $w['id'] );
 			$door   = $ruw->bijgehouden_door ? get_userdata( $ruw->bijgehouden_door ) : null;
 			$status = $w['status'];
-			if ( 'bezig' === $status && $w['minuut'] ) {
-				$status_tekst = 'Live ' . $w['minuut'] . "'";
+			if ( 'bezig' === $status && $w['minuut_tekst'] ) {
+				$status_tekst = 'Live ' . $w['minuut_tekst'] . "'";
 			} else {
 				$status_tekst = ucfirst( $status );
 			}
@@ -123,7 +123,7 @@ function neo_ls_pagina_wedstrijden() {
 						'rood'     => '🟥',
 					)[ $g['type'] ];
 					$club     = $w[ $g['kant'] ]['naam'];
-					$regels[] = trim( $soort . ' ' . ( $g['minuut'] ? $g['minuut'] . "' " : '' ) . ( $g['speler'] ? $g['speler'] . ' ' : '' ) . "($club)" );
+					$regels[] = trim( $soort . ' ' . ( $g['minuut_tekst'] ? $g['minuut_tekst'] . "' " : '' ) . ( $g['speler'] ? $g['speler'] . ' ' : '' ) . "($club)" );
 				}
 				echo esc_html( implode( '   ·   ', $regels ) );
 				echo '</td></tr>';
