@@ -13,6 +13,8 @@
           "aftrap": "2026-10-10T14:30:00+02:00",
           "status": "afgelopen",
           "minuut": null,
+          "extra": null,
+          "minuut_tekst": null,
           "thuis": {
             "id": 7,
             "naam": "Altior",
@@ -37,6 +39,8 @@
               "kant": "thuis",
               "type": "doelpunt",
               "minuut": 8,
+              "extra": null,
+              "minuut_tekst": "8",
               "speler": null
             },
             {
@@ -44,6 +48,8 @@
               "kant": "thuis",
               "type": "doelpunt",
               "minuut": 19,
+              "extra": null,
+              "minuut_tekst": "19",
               "speler": null
             },
             {
@@ -51,6 +57,8 @@
               "kant": "thuis",
               "type": "doelpunt",
               "minuut": 33,
+              "extra": null,
+              "minuut_tekst": "33",
               "speler": null
             },
             {
@@ -58,6 +66,8 @@
               "kant": "thuis",
               "type": "doelpunt",
               "minuut": 47,
+              "extra": null,
+              "minuut_tekst": "47",
               "speler": null
             },
             {
@@ -65,6 +75,8 @@
               "kant": "thuis",
               "type": "doelpunt",
               "minuut": 56,
+              "extra": null,
+              "minuut_tekst": "56",
               "speler": null
             },
             {
@@ -72,6 +84,8 @@
               "kant": "uit",
               "type": "doelpunt",
               "minuut": 64,
+              "extra": null,
+              "minuut_tekst": "64",
               "speler": null
             },
             {
@@ -79,6 +93,8 @@
               "kant": "thuis",
               "type": "doelpunt",
               "minuut": 70,
+              "extra": null,
+              "minuut_tekst": "70",
               "speler": null
             },
             {
@@ -86,6 +102,8 @@
               "kant": "thuis",
               "type": "doelpunt",
               "minuut": 84,
+              "extra": null,
+              "minuut_tekst": "84",
               "speler": null
             }
           ]
@@ -95,6 +113,8 @@
           "aftrap": "2026-10-10T15:00:00+02:00",
           "status": "afgelopen",
           "minuut": null,
+          "extra": null,
+          "minuut_tekst": null,
           "thuis": {
             "id": 5,
             "naam": "TAVV",
@@ -119,6 +139,8 @@
               "kant": "uit",
               "type": "geel",
               "minuut": 44,
+              "extra": null,
+              "minuut_tekst": "44",
               "speler": null
             },
             {
@@ -126,6 +148,8 @@
               "kant": "thuis",
               "type": "doelpunt",
               "minuut": 71,
+              "extra": null,
+              "minuut_tekst": "71",
               "speler": null
             }
           ]
@@ -140,6 +164,8 @@
           "aftrap": "2026-10-03T14:30:00+02:00",
           "status": "afgelopen",
           "minuut": null,
+          "extra": null,
+          "minuut_tekst": null,
           "thuis": {
             "id": 9,
             "naam": "Zwammerdam",
@@ -162,6 +188,8 @@
           "aftrap": "2026-10-03T14:30:00+02:00",
           "status": "afgelopen",
           "minuut": null,
+          "extra": null,
+          "minuut_tekst": null,
           "thuis": {
             "id": 10,
             "naam": "Nicolaas Boys",
@@ -184,6 +212,8 @@
           "aftrap": "2026-10-03T14:30:00+02:00",
           "status": "afgelopen",
           "minuut": null,
+          "extra": null,
+          "minuut_tekst": null,
           "thuis": {
             "id": 11,
             "naam": "NSV'46",
@@ -206,6 +236,8 @@
           "aftrap": "2026-10-03T14:30:00+02:00",
           "status": "afgelopen",
           "minuut": null,
+          "extra": null,
+          "minuut_tekst": null,
           "thuis": {
             "id": 13,
             "naam": "Aarlanderveen",
@@ -228,6 +260,8 @@
           "aftrap": "2026-10-03T14:30:00+02:00",
           "status": "afgelopen",
           "minuut": null,
+          "extra": null,
+          "minuut_tekst": null,
           "thuis": {
             "id": 8,
             "naam": "AVV Alphen",
@@ -250,6 +284,8 @@
           "aftrap": "2026-10-03T14:30:00+02:00",
           "status": "afgelopen",
           "minuut": null,
+          "extra": null,
+          "minuut_tekst": null,
           "thuis": {
             "id": 6,
             "naam": "Woerden",

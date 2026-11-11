@@ -17,7 +17,7 @@ import {
 import AfrondenBlad from '../../components/beheer/AfrondenBlad';
 import DoelpuntMelding from '../../components/beheer/DoelpuntMelding';
 import GebeurtenisBlad from '../../components/beheer/GebeurtenisBlad';
-import { bevestig, beheerKleuren as k, huidigeMinuut, NAAM_VAN_TYPE, tijd, toonFout } from '../../components/beheer/hulp';
+import { bevestig, beheerKleuren as k, huidigeMinuut, minuutTekst, NAAM_VAN_TYPE, tijd, toonFout } from '../../components/beheer/hulp';
 import { ClubLogo, Keuzes, Knop, StatusLabel } from '../../components/beheer/onderdelen';
 
 const STATUSSEN = [
@@ -87,7 +87,7 @@ export default function WedstrijdBijhoudenScherm() {
     if (antwoord) {
       setWedstrijd(antwoord.wedstrijd);
       const gebeurtenis = antwoord.wedstrijd.gebeurtenissen.find((g) => g.id === antwoord.gebeurtenis_id);
-      const minuut = gebeurtenis?.minuut ? ` · ${gebeurtenis.minuut}'` : '';
+      const minuut = gebeurtenis?.minuut_tekst ? ` · ${gebeurtenis.minuut_tekst}'` : '';
       setMelding({ tekst: `Doelpunt ${wedstrijd[kant].naam}${minuut}`, gebeurtenisId: antwoord.gebeurtenis_id });
     }
   }
@@ -181,12 +181,12 @@ export default function WedstrijdBijhoudenScherm() {
     );
   }
 
-  const minuut = huidigeMinuut(wedstrijd, nu);
+  const minuut = minuutTekst(huidigeMinuut(wedstrijd, nu));
   const score = wedstrijd.score || { thuis: 0, uit: 0 };
   const vanIemandAnders = !wedstrijd.door_mij && !!wedstrijd.bijgehouden_door;
-  // Nieuwste bovenaan: eerst op minuut, dan op volgorde van invoeren.
+  // Nieuwste bovenaan: eerst op minuut (45+2 na 45), dan op volgorde van invoeren.
   const gebeurtenissen = [...wedstrijd.gebeurtenissen].sort(
-    (a, b) => (b.minuut ?? 0) - (a.minuut ?? 0) || b.id - a.id
+    (a, b) => (b.minuut ?? 0) - (a.minuut ?? 0) || (b.extra ?? 0) - (a.extra ?? 0) || b.id - a.id
   );
 
   return (
@@ -274,7 +274,7 @@ export default function WedstrijdBijhoudenScherm() {
           {gebeurtenissen.map((g) => (
             <View key={g.id} style={styles.gebeurtenis}>
               <Text style={styles.icoon}>{g.type === 'doelpunt' ? '⚽' : g.type === 'geel' ? '🟨' : '🟥'}</Text>
-              <Text style={styles.gebeurtenisMinuut}>{g.minuut ? `${g.minuut}'` : '–'}</Text>
+              <Text style={styles.gebeurtenisMinuut}>{g.minuut_tekst ? `${g.minuut_tekst}'` : '–'}</Text>
               <View style={{ flex: 1 }}>
                 <Text style={styles.gebeurtenisTitel}>
                   {NAAM_VAN_TYPE[g.type]} {wedstrijd[g.kant].naam}
@@ -318,7 +318,7 @@ function OpslaanStatus({ status }) {
   const tekst = { opgeslagen: 'Opgeslagen', bezig: 'Opslaan…', fout: 'Niet opgeslagen' }[status];
   const kleur = { opgeslagen: k.groen, bezig: k.grijs, fout: k.rood }[status];
   return (
-    <Text style={[styles.opslaan, { color: status === 'opgeslagen' ? k.donkergroen : kleur }]}>
+    <Text style={[styles.opslaan, { color: status === 'opgeslagen' ? k.zwart : kleur }]}>
       <Text style={{ color: kleur }}>● </Text>
       {tekst}
     </Text>
@@ -379,7 +379,7 @@ const styles = StyleSheet.create({
   terugTekst: {
     fontSize: 17,
     fontWeight: '700',
-    color: k.donkergroen,
+    color: k.zwart,
   },
   opslaan: {
     fontSize: 14,
@@ -524,7 +524,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   gebeurtenisMinuut: {
-    width: 38,
+    width: 48,
     fontSize: 16,
     fontWeight: '800',
     color: k.zwart,

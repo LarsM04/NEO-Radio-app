@@ -55,8 +55,8 @@ export function StatusLabel({ wedstrijd, minuut }) {
   }
   if (status === 'afgelopen') {
     return (
-      <View style={[styles.label, { backgroundColor: k.donkergroen }]}>
-        <Text style={[styles.labelTekst, { color: k.wit }]}>Afgelopen</Text>
+      <View style={[styles.label, { backgroundColor: k.groen }]}>
+        <Text style={styles.labelTekst}>Afgelopen</Text>
       </View>
     );
   }
@@ -67,10 +67,10 @@ export function StatusLabel({ wedstrijd, minuut }) {
   );
 }
 
-// Knop in drie soorten: 'donker' (donkergroen), 'rand' (wit met rand) en 'licht' (lichtgroen).
+// Knop in drie soorten: 'donker' (NEO-zwart), 'rand' (wit met rand) en 'licht' (lichtgroen).
 export function Knop({ tekst, onPress, soort = 'donker', bezig = false, uit = false, style }) {
   const kleur = {
-    donker: { achter: k.donkergroen, tekst: k.wit, rand: k.donkergroen },
+    donker: { achter: k.zwart, tekst: k.wit, rand: k.zwart },
     rand: { achter: k.wit, tekst: k.zwart, rand: k.zwart },
     licht: { achter: k.lichtgroen, tekst: k.zwart, rand: k.rand },
   }[soort];

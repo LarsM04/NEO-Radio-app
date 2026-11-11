@@ -23,7 +23,7 @@ import {
   NietIngelogdFout,
   uitloggen,
 } from '../../api/beheer';
-import { bevestig, beheerKleuren as k, datumTekst, huidigeMinuut, toonFout } from '../../components/beheer/hulp';
+import { bevestig, beheerKleuren as k, datumTekst, huidigeMinuut, minuutTekst, toonFout } from '../../components/beheer/hulp';
 import { Knop } from '../../components/beheer/onderdelen';
 import WedstrijdKaart from '../../components/beheer/WedstrijdKaart';
 
@@ -245,7 +245,7 @@ function MijnWedstrijden({ gebruiker, onUitgelogd }) {
               <WedstrijdKaart
                 key={wedstrijd.id}
                 wedstrijd={wedstrijd}
-                minuut={huidigeMinuut(wedstrijd, nu)}
+                minuut={minuutTekst(huidigeMinuut(wedstrijd, nu))}
                 magOvernemen={gebruiker.beheren}
                 bezig={bezigMet === wedstrijd.id}
                 onOpen={() => router.push(`/beheer/${wedstrijd.id}`)}
@@ -294,7 +294,7 @@ const styles = StyleSheet.create({
   uitloggen: {
     fontSize: 14,
     fontWeight: '700',
-    color: k.donkergroen,
+    color: k.zwart,
     textAlign: 'right',
   },
   terug: {
@@ -305,7 +305,7 @@ const styles = StyleSheet.create({
   terugTekst: {
     fontSize: 16,
     fontWeight: '700',
-    color: k.donkergroen,
+    color: k.zwart,
   },
   titel: {
     fontSize: 30,

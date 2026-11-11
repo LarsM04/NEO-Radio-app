@@ -15,6 +15,12 @@ let login = null;
 export class NietIngelogdFout extends Error {}
 
 async function verzoek(pad, { methode = 'GET', body } = {}) {
+  // Wordt een beheerscherm direct geopend (bijv. na herladen), dan is de bewaarde
+  // login nog niet ingelezen. Doe dat eerst, anders gaat er geen token mee.
+  if (!login && pad !== '/inloggen') {
+    await haalLoginOp();
+  }
+
   const headers = {};
   if (body) {
     headers['Content-Type'] = 'application/json';
