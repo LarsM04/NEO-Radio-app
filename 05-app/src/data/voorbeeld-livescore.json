@@ -1,7 +1,7 @@
 {
   "seizoen": "2026-2027",
   "live": true,
-  "bijgewerkt": "2026-11-09T11:54:51+01:00",
+  "bijgewerkt": "2026-11-09T14:44:42+01:00",
   "klassen": [
     {
       "id": 1,
@@ -11,9 +11,11 @@
       "wedstrijden": [
         {
           "id": 11,
-          "aftrap": "2026-11-09T10:32:00+01:00",
+          "aftrap": "2026-11-09T13:22:00+01:00",
           "status": "bezig",
           "minuut": 67,
+          "extra": null,
+          "minuut_tekst": "67",
           "thuis": {
             "id": 3,
             "naam": "Forum Sport",
@@ -38,6 +40,8 @@
               "kant": "thuis",
               "type": "doelpunt",
               "minuut": 12,
+              "extra": null,
+              "minuut_tekst": "12",
               "speler": "S. de Jong"
             },
             {
@@ -45,6 +49,8 @@
               "kant": "uit",
               "type": "doelpunt",
               "minuut": 34,
+              "extra": null,
+              "minuut_tekst": "34",
               "speler": null
             },
             {
@@ -52,6 +58,8 @@
               "kant": "uit",
               "type": "geel",
               "minuut": 58,
+              "extra": null,
+              "minuut_tekst": "58",
               "speler": "M. Kok"
             },
             {
@@ -59,6 +67,8 @@
               "kant": "uit",
               "type": "doelpunt",
               "minuut": 61,
+              "extra": null,
+              "minuut_tekst": "61",
               "speler": "T. Bos"
             }
           ]
@@ -73,9 +83,11 @@
       "wedstrijden": [
         {
           "id": 12,
-          "aftrap": "2026-11-09T11:04:00+01:00",
+          "aftrap": "2026-11-09T13:54:00+01:00",
           "status": "rust",
           "minuut": null,
+          "extra": null,
+          "minuut_tekst": null,
           "thuis": {
             "id": 5,
             "naam": "TAVV",
@@ -100,15 +112,19 @@
               "kant": "uit",
               "type": "geel",
               "minuut": 44,
+              "extra": null,
+              "minuut_tekst": "44",
               "speler": null
             }
           ]
         },
         {
           "id": 13,
-          "aftrap": "2026-11-09T12:54:00+01:00",
+          "aftrap": "2026-11-09T15:44:00+01:00",
           "status": "gepland",
           "minuut": null,
+          "extra": null,
+          "minuut_tekst": null,
           "thuis": {
             "id": 7,
             "naam": "Altior",

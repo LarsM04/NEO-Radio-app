@@ -3,7 +3,6 @@
 
 .neo-ls {
 	--neo-groen: #81bb19;
-	--neo-donkergroen: #355f13;
 	--neo-lichtgroen: #f3f6ee;
 	--neo-rand: #e3ead8;
 	--neo-rood: #e2000e;
@@ -29,15 +28,17 @@
 	color: var(--neo-grijs);
 }
 
-/* Knoppen in donkergroen */
+/* Knoppen in NEO-zwart (donkergroen gebruiken we niet meer) */
 .neo-ls .button-primary {
-	background: var(--neo-donkergroen);
-	border-color: var(--neo-donkergroen);
+	background: var(--neo-zwart);
+	border-color: var(--neo-zwart);
+	color: #fff;
 }
 .neo-ls .button-primary:hover,
 .neo-ls .button-primary:focus {
-	background: #2a4c0f;
-	border-color: #2a4c0f;
+	background: #000;
+	border-color: #000;
+	color: #fff;
 }
 .neo-ls .button-link-delete {
 	color: var(--neo-rood);
@@ -137,7 +138,7 @@
 	color: var(--neo-zwart);
 }
 .neo-ls-schakel.aan .neo-ls-schakel-knop {
-	background: var(--neo-donkergroen);
+	background: var(--neo-groen);
 }
 .neo-ls-schakel.aan .neo-ls-schakel-knop::after {
 	left: 18px;
@@ -193,9 +194,9 @@
 	color: #fff;
 }
 .neo-ls-status-afgelopen {
-	background: var(--neo-donkergroen);
-	border-color: var(--neo-donkergroen);
-	color: #fff;
+	background: var(--neo-groen);
+	border-color: var(--neo-groen);
+	color: var(--neo-zwart);
 }
 
 /* Filters bovenaan een lijst */

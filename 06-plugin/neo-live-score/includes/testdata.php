@@ -4,6 +4,12 @@
 //
 //   wp neo-livescore testdata --leeg          alles leegmaken en opnieuw vullen
 //   wp neo-livescore testdata --leeg --live   idem, plus een speelronde van vandaag die nu bezig is
+//
+// Het commando maakt ook twee testaccounts met de rol "Live-score medewerker" om in de app
+// mee in te loggen: test-medewerker en test-theo, allebei met wachtwoord NEO_LS_TEST_WACHTWOORD.
+// Die accounts horen alleen in de lokale testomgeving, nooit op de echte website.
+
+const NEO_LS_TEST_WACHTWOORD = 'neo-test-2026';
 
 defined( 'ABSPATH' ) || exit;
 
@@ -41,6 +47,10 @@ function neo_ls_cli_testdata( $args, $opties ) {
 		WP_CLI::error( 'Er staat al data in de tabellen. Gebruik --leeg om alles te vervangen.' );
 	}
 
+	// Testaccounts voor het beheer in de app.
+	neo_ls_td_gebruiker( 'test-medewerker', 'Test Medewerker' );
+	$theo = neo_ls_td_gebruiker( 'test-theo', 'Theo' );
+
 	// Seizoen en klassen.
 	$wpdb->insert( neo_ls_tabel( 'seizoen' ), array( 'naam' => '2025-2026', 'actief' => 0 ) );
 	$wpdb->insert( neo_ls_tabel( 'seizoen' ), array( 'naam' => '2026-2027', 'actief' => 1 ) );
@@ -51,7 +61,7 @@ function neo_ls_cli_testdata( $args, $opties ) {
 	$klasse5 = neo_ls_td_klasse( $seizoen, 'Vijfde Klasse B West 2', '5e klasse', 3 );
 
 	// Clubs. Logo's halen we uit Soccer Live Scores als die club daar al in staat.
-	$logos = neo_ls_td_logos_uit_soccer_live_scores();
+	$logos = array_change_key_case( neo_ls_sls_clubs() );
 	$club  = array();
 	foreach ( array( 'Nieuwkoop', 'Wippolder', 'Forum Sport', 'Argon' ) as $naam ) {
 		$club[ $naam ] = neo_ls_td_club( $naam, $logos, $klasse2 );
@@ -119,16 +129,37 @@ function neo_ls_cli_testdata( $args, $opties ) {
 			),
 			wp_date( 'Y-m-d H:i:s', $nu - 21 * 60 )
 		);
-		// In de rust.
-		neo_ls_td_wedstrijd(
+		// In de rust, en Theo houdt hem bij.
+		$rust = neo_ls_td_wedstrijd(
 			$klasse4, $club['TAVV'], $club['Woerden'], wp_date( 'Y-m-d H:i', $nu - 50 * 60 ), 'rust', null, array( 0, 0 ),
 			array( array( 'uit', 'geel', 44, '' ) )
 		);
+		$wpdb->update( neo_ls_tabel( 'wedstrijd' ), array( 'bijgehouden_door' => $theo ), array( 'id' => $rust ) );
 		// Begint over een uur.
 		neo_ls_td_wedstrijd( $klasse4, $club['Altior'], $club['AVV Alphen'], wp_date( 'Y-m-d H:i', $nu + 60 * 60 ), 'gepland' );
 	}
 
-	WP_CLI::success( 'Testdata staat klaar. Bekijk /wp-json/neo/v1/livescore.' );
+	WP_CLI::success( 'Testdata staat klaar. Bekijk /wp-json/neo/v1/livescore. Inloggen in de app kan met test-medewerker of test-theo.' );
+}
+
+/**
+ * Maakt een testaccount met de rol Live-score medewerker, als dat nog niet bestaat.
+ */
+function neo_ls_td_gebruiker( $login, $naam ) {
+	$bestaand = get_user_by( 'login', $login );
+	if ( $bestaand ) {
+		return $bestaand->ID;
+	}
+	return wp_insert_user(
+		array(
+			'user_login'   => $login,
+			'user_pass'    => NEO_LS_TEST_WACHTWOORD,
+			'user_email'   => $login . '@neoradio.local',
+			'display_name' => $naam,
+			'first_name'   => $naam,
+			'role'         => 'neo_livescore_medewerker',
+		)
+	);
 }
 
 function neo_ls_td_klasse( $seizoen_id, $naam, $korte_naam, $volgorde ) {
@@ -198,28 +229,4 @@ function neo_ls_td_wedstrijd( $klasse_id, $thuis, $uit, $aftrap, $status, $score
 		}
 	}
 	return $id;
-}
-
-/**
- * Zoekt de logo's op in de tabel van Soccer Live Scores, met de clubnaam als sleutel.
- * Daar staat de aftraptijd soms in de naam, zoals "Nieuwkoop (15.00 uur)"; die halen we eraf.
- */
-function neo_ls_td_logos_uit_soccer_live_scores() {
-	global $wpdb;
-	$tabel = $wpdb->prefix . 'daextsolisc_match';
-	if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $tabel ) ) !== $tabel ) {
-		return array();
-	}
-
-	$logos = array();
-	foreach ( $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %i', $tabel ) ) as $rij ) {
-		foreach ( array( 1, 2 ) as $team ) {
-			$naam = trim( preg_replace( '/\s*\(.*$/', '', $rij->{"team_{$team}_name"} ) );
-			$logo = $rij->{"team_{$team}_logo"};
-			if ( $naam && $logo ) {
-				$logos[ strtolower( $naam ) ] = $logo;
-			}
-		}
-	}
-	return $logos;
 }

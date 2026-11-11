@@ -112,7 +112,12 @@ function neo_ls_klassen_kaart( $seizoen ) {
 				neo_ls_klasse_formulier( $seizoen, $klasse );
 				echo '</td>';
 			} else {
-				printf( '<td><strong>%s</strong></td>', esc_html( $klasse->naam ) );
+				// Met de shortcode erbij, om alleen deze klasse op een pagina te zetten.
+				printf(
+					'<td><strong>%s</strong><br><code class="neo-ls-klein">[neo_livescore klasse="%d"]</code></td>',
+					esc_html( $klasse->naam ),
+					(int) $klasse->id
+				);
 				printf( '<td><span class="neo-ls-label">%s</span></td>', esc_html( $klasse->korte_naam ) );
 				printf(
 					'<td>%s</td>',

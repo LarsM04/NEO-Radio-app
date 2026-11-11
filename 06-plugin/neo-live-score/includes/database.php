@@ -97,6 +97,7 @@ CREATE TABLE $gebeurtenis (
   kant varchar(5) NOT NULL,
   type varchar(10) NOT NULL,
   minuut smallint(5) unsigned DEFAULT NULL,
+  extra smallint(5) unsigned DEFAULT NULL,
   speler varchar(100) NOT NULL DEFAULT '',
   aangemaakt datetime NOT NULL,
   PRIMARY KEY  (id),

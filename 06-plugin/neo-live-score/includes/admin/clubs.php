@@ -6,6 +6,44 @@ defined( 'ABSPATH' ) || exit;
 
 add_action( 'admin_post_neo_ls_club_opslaan', 'neo_ls_club_opslaan' );
 add_action( 'admin_post_neo_ls_club_actief', 'neo_ls_club_actief_zetten' );
+add_action( 'admin_post_neo_ls_sls_overzetten', 'neo_ls_sls_overzetten_formulier' );
+
+/**
+ * Staan er in Soccer Live Scores nog clubs of logo's die wij niet hebben, dan komt er een knop
+ * om ze over te zetten. Als alles over is, verdwijnt de knop vanzelf.
+ */
+function neo_ls_sls_melding() {
+	$ontbrekend = neo_ls_sls_ontbrekend();
+	if ( ! $ontbrekend ) {
+		return;
+	}
+	$nieuw = count( array_filter( wp_list_pluck( $ontbrekend, 'id' ), fn( $id ) => ! $id ) );
+	$logo  = count( $ontbrekend ) - $nieuw;
+
+	echo '<div class="neo-ls-kaart">';
+	echo '<h2>Overzetten uit Soccer Live Scores</h2>';
+	printf(
+		'<p>In Soccer Live Scores staan %s die hier nog niet staan, en %s voor clubs die hier nog geen logo hebben. Bestaande clubs en logo\'s blijven zoals ze zijn.</p>',
+		esc_html( 1 === $nieuw ? '1 club' : "$nieuw clubs" ),
+		esc_html( 1 === $logo ? '1 logo' : "$logo logo's" )
+	);
+	printf( '<p class="neo-ls-klein">%s</p>', esc_html( implode( ', ', array_keys( $ontbrekend ) ) ) );
+	echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '">';
+	wp_nonce_field( 'neo_ls_sls_overzetten' );
+	echo '<input type="hidden" name="action" value="neo_ls_sls_overzetten">';
+	echo '<button class="button button-primary">Clubs overzetten</button>';
+	echo '</form></div>';
+}
+
+function neo_ls_sls_overzetten_formulier() {
+	neo_ls_beheer_controleren( 'neo_ls_sls_overzetten' );
+	$aantal = neo_ls_sls_overzetten();
+	neo_ls_terug(
+		'neo-live-score-clubs',
+		array(),
+		"Overgezet: {$aantal['nieuw']} nieuwe clubs en {$aantal['logo']} logo's. Vink bij elke club nog aan in welke klasse hij speelt."
+	);
+}
 
 function neo_ls_pagina_clubs() {
 	global $wpdb;
@@ -51,6 +89,8 @@ function neo_ls_pagina_clubs() {
 			'tekst' => '+ Club toevoegen',
 		) : null
 	);
+
+	neo_ls_sls_melding();
 
 	echo '<div class="neo-ls-kolommen">';
 

@@ -12,13 +12,16 @@
 defined( 'ABSPATH' ) || exit;
 
 define( 'NEO_LS_VERSIE', '0.1.0' );
-define( 'NEO_LS_DB_VERSIE', '2' );
+define( 'NEO_LS_DB_VERSIE', '3' );
 define( 'NEO_LS_BESTAND', __FILE__ );
 define( 'NEO_LS_PAD', plugin_dir_path( __FILE__ ) );
 
 require_once NEO_LS_PAD . 'includes/database.php';
 require_once NEO_LS_PAD . 'includes/wedstrijden.php';
 require_once NEO_LS_PAD . 'includes/rest-api.php';
+require_once NEO_LS_PAD . 'includes/rest-beheer.php';
+require_once NEO_LS_PAD . 'includes/soccer-live-scores.php';
+require_once NEO_LS_PAD . 'includes/shortcode.php';
 
 // De schermen in het WordPress-beheer.
 if ( is_admin() ) {
