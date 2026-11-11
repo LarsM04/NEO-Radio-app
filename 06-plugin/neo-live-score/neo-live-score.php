@@ -20,6 +20,8 @@ require_once NEO_LS_PAD . 'includes/database.php';
 require_once NEO_LS_PAD . 'includes/wedstrijden.php';
 require_once NEO_LS_PAD . 'includes/rest-api.php';
 require_once NEO_LS_PAD . 'includes/rest-beheer.php';
+require_once NEO_LS_PAD . 'includes/soccer-live-scores.php';
+require_once NEO_LS_PAD . 'includes/shortcode.php';
 
 // De schermen in het WordPress-beheer.
 if ( is_admin() ) {

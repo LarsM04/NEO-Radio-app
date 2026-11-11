@@ -61,7 +61,7 @@ function neo_ls_cli_testdata( $args, $opties ) {
 	$klasse5 = neo_ls_td_klasse( $seizoen, 'Vijfde Klasse B West 2', '5e klasse', 3 );
 
 	// Clubs. Logo's halen we uit Soccer Live Scores als die club daar al in staat.
-	$logos = neo_ls_td_logos_uit_soccer_live_scores();
+	$logos = array_change_key_case( neo_ls_sls_clubs() );
 	$club  = array();
 	foreach ( array( 'Nieuwkoop', 'Wippolder', 'Forum Sport', 'Argon' ) as $naam ) {
 		$club[ $naam ] = neo_ls_td_club( $naam, $logos, $klasse2 );
@@ -229,28 +229,4 @@ function neo_ls_td_wedstrijd( $klasse_id, $thuis, $uit, $aftrap, $status, $score
 		}
 	}
 	return $id;
-}
-
-/**
- * Zoekt de logo's op in de tabel van Soccer Live Scores, met de clubnaam als sleutel.
- * Daar staat de aftraptijd soms in de naam, zoals "Nieuwkoop (15.00 uur)"; die halen we eraf.
- */
-function neo_ls_td_logos_uit_soccer_live_scores() {
-	global $wpdb;
-	$tabel = $wpdb->prefix . 'daextsolisc_match';
-	if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $tabel ) ) !== $tabel ) {
-		return array();
-	}
-
-	$logos = array();
-	foreach ( $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %i', $tabel ) ) as $rij ) {
-		foreach ( array( 1, 2 ) as $team ) {
-			$naam = trim( preg_replace( '/\s*\(.*$/', '', $rij->{"team_{$team}_name"} ) );
-			$logo = $rij->{"team_{$team}_logo"};
-			if ( $naam && $logo ) {
-				$logos[ strtolower( $naam ) ] = $logo;
-			}
-		}
-	}
-	return $logos;
 }

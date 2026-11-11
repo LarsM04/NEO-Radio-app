@@ -4,6 +4,7 @@
 //
 //   GET /wp-json/neo/v1/klassen               klassen van het huidige seizoen
 //   GET /wp-json/neo/v1/livescore             huidige speelronde per klasse
+//   GET /wp-json/neo/v1/livescore/html        hetzelfde als HTML, voor de shortcode op de website
 //   GET /wp-json/neo/v1/uitslagen?klasse={id} afgelopen wedstrijden van één klasse
 
 defined( 'ABSPATH' ) || exit;
@@ -28,6 +29,24 @@ function neo_ls_routes_registreren() {
 			'methods'             => 'GET',
 			'callback'            => 'neo_ls_rest_livescore',
 			'permission_callback' => '__return_true',
+		)
+	);
+
+	// Dezelfde live score als HTML, zodat de shortcode op de website zichzelf kan verversen.
+	register_rest_route(
+		'neo/v1',
+		'/livescore/html',
+		array(
+			'methods'             => 'GET',
+			'callback'            => 'neo_ls_rest_livescore_html',
+			'permission_callback' => '__return_true',
+			'args'                => array(
+				'klasse' => array(
+					'type'    => 'integer',
+					'minimum' => 0,
+					'default' => 0,
+				),
+			),
 		)
 	);
 
@@ -67,6 +86,13 @@ function neo_ls_rest_klassen() {
 }
 
 function neo_ls_rest_livescore() {
+	return neo_ls_antwoord( neo_ls_livescore_gegevens() );
+}
+
+/**
+ * De huidige speelronde per klasse. Gebruikt door /livescore en de shortcode.
+ */
+function neo_ls_livescore_gegevens() {
 	$seizoen = neo_ls_actief_seizoen();
 	$klassen = array();
 	$live    = false;
@@ -92,14 +118,12 @@ function neo_ls_rest_livescore() {
 		}
 	}
 
-	return neo_ls_antwoord(
-		array(
-			'seizoen'    => $seizoen ? $seizoen->naam : null,
-			// true als er een wedstrijd bezig of in de rust is: dan ververst de app elke 10 seconden.
-			'live'       => $live,
-			'bijgewerkt' => neo_ls_laatst_bijgewerkt(),
-			'klassen'    => $klassen,
-		)
+	return array(
+		'seizoen'    => $seizoen ? $seizoen->naam : null,
+		// true als er een wedstrijd bezig of in de rust is: dan ververst de app elke 10 seconden.
+		'live'       => $live,
+		'bijgewerkt' => neo_ls_laatst_bijgewerkt(),
+		'klassen'    => $klassen,
 	);
 }
 
