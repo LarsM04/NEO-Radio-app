@@ -17,7 +17,16 @@ import {
 import AfrondenBlad from '../../components/beheer/AfrondenBlad';
 import DoelpuntMelding from '../../components/beheer/DoelpuntMelding';
 import GebeurtenisBlad from '../../components/beheer/GebeurtenisBlad';
-import { bevestig, beheerKleuren as k, huidigeMinuut, minuutTekst, NAAM_VAN_TYPE, tijd, toonFout } from '../../components/beheer/hulp';
+import {
+  bevestig,
+  beheerKleuren as k,
+  huidigeMinuut,
+  klokTekst,
+  minuutTekst,
+  NAAM_VAN_TYPE,
+  tijd,
+  toonFout,
+} from '../../components/beheer/hulp';
 import { ClubLogo, Keuzes, Knop, StatusLabel } from '../../components/beheer/onderdelen';
 
 const STATUSSEN = [
@@ -64,12 +73,12 @@ export default function WedstrijdBijhoudenScherm() {
     }
   }, [id]);
 
-  // Ophalen bij openen; de minuut elke 15 seconden bijwerken.
+  // Ophalen bij openen; de klok elke seconde bijwerken.
   useFocusEffect(
     useCallback(() => {
       ophalen();
-      const klok = setInterval(() => setNu(Date.now()), 15000);
-      return () => clearInterval(klok);
+      const teller = setInterval(() => setNu(Date.now()), 1000);
+      return () => clearInterval(teller);
     }, [ophalen])
   );
 
@@ -199,6 +208,7 @@ export default function WedstrijdBijhoudenScherm() {
   }
 
   const minuut = minuutTekst(huidigeMinuut(wedstrijd, nu));
+  const klok = klokTekst(wedstrijd, nu);
   const score = wedstrijd.score || { thuis: 0, uit: 0 };
   const vanIemandAnders = !wedstrijd.door_mij && !!wedstrijd.bijgehouden_door;
   const stap = volgendeStap(wedstrijd);
@@ -228,6 +238,7 @@ export default function WedstrijdBijhoudenScherm() {
         <View style={styles.bord}>
           <View style={{ alignItems: 'center', marginBottom: 10 }}>
             <StatusLabel wedstrijd={wedstrijd} minuut={minuut} />
+            {klok && <Text style={styles.bordKlok}>{klok}</Text>}
           </View>
           <View style={styles.bordRij}>
             <BordClub club={wedstrijd.thuis} />
@@ -446,6 +457,14 @@ const styles = StyleSheet.create({
     fontSize: 48,
     fontWeight: '800',
     marginHorizontal: 8,
+  },
+  bordKlok: {
+    color: k.wit,
+    fontSize: 28,
+    fontWeight: '700',
+    marginTop: 6,
+    // Cijfers even breed, zodat de klok niet verspringt als de seconden tellen.
+    fontVariant: ['tabular-nums'],
   },
   bordRust: {
     color: '#c9c9c9',

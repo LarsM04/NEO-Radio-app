@@ -43,10 +43,7 @@ export function huidigeMinuut(wedstrijd, nu = Date.now()) {
     return null;
   }
   const tweedeHelft = !!wedstrijd.start_tweede_helft;
-  // Vanaf het moment dat de helft echt begon; bij oude wedstrijden vanaf de geplande aftrap.
-  const start = Date.parse(
-    tweedeHelft ? wedstrijd.start_tweede_helft : wedstrijd.start_eerste_helft || wedstrijd.aftrap
-  );
+  const start = startHelft(wedstrijd);
   const gespeeld = (tweedeHelft ? 46 : 1) + Math.floor(Math.max(0, nu - start) / 60000);
   const einde = tweedeHelft ? 90 : 45;
 
@@ -54,6 +51,28 @@ export function huidigeMinuut(wedstrijd, nu = Date.now()) {
     return { minuut: einde, extra: Math.min(30, gespeeld - einde) };
   }
   return { minuut: gespeeld, extra: null };
+}
+
+// Het moment (in milliseconden) waarop de huidige helft echt begon.
+// Bij oude wedstrijden zonder start_eerste_helft: de geplande aftrap.
+function startHelft(wedstrijd) {
+  return Date.parse(
+    wedstrijd.start_tweede_helft || wedstrijd.start_eerste_helft || wedstrijd.aftrap
+  );
+}
+
+// De wedstrijdklok met seconden, zoals op een scorebord: "23:07". De tweede helft begint op
+// "45:00". In blessuretijd loopt de klok gewoon door ("47:12"), tot hoogstens 30 minuten na
+// het einde van de helft, net als huidigeMinuut. Geeft null als de wedstrijd niet bezig is.
+export function klokTekst(wedstrijd, nu = Date.now()) {
+  if (wedstrijd.status !== 'bezig') {
+    return null;
+  }
+  const verstreken = Math.min(75 * 60, Math.max(0, Math.floor((nu - startHelft(wedstrijd)) / 1000)));
+  const seconden = (wedstrijd.start_tweede_helft ? 45 * 60 : 0) + verstreken;
+  const mm = String(Math.floor(seconden / 60)).padStart(2, '0');
+  const ss = String(seconden % 60).padStart(2, '0');
+  return `${mm}:${ss}`;
 }
 
 // { minuut: 45, extra: 2 } -> "45+2", { minuut: 67 } -> "67", null -> null
