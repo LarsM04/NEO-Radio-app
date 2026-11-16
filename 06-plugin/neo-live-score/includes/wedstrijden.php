@@ -58,7 +58,9 @@ function neo_ls_huidige_minuut( $wedstrijd ) {
 		$gespeeld = 46 + intdiv( max( 0, time() - neo_ls_tijdstempel( $wedstrijd->start_tweede_helft ) ), 60 );
 		$einde    = 90;
 	} else {
-		$gespeeld = 1 + intdiv( max( 0, time() - neo_ls_tijdstempel( $wedstrijd->aftrap ) ), 60 );
+		// Vanaf het moment dat de wedstrijd echt begon; bij oude wedstrijden vanaf de geplande aftrap.
+		$begin    = $wedstrijd->start_eerste_helft ? $wedstrijd->start_eerste_helft : $wedstrijd->aftrap;
+		$gespeeld = 1 + intdiv( max( 0, time() - neo_ls_tijdstempel( $begin ) ), 60 );
 		$einde    = 45;
 	}
 
@@ -455,8 +457,17 @@ function neo_ls_status_zetten( $wedstrijd_id, $status ) {
 		$velden['rust_thuis'] = $wedstrijd->score_thuis;
 		$velden['rust_uit']   = $wedstrijd->score_uit;
 	}
+	// De klok loopt vanaf het moment dat de wedstrijd echt begint, niet vanaf de geplande aftrap.
+	if ( 'gepland' === $wedstrijd->status && 'bezig' === $status ) {
+		$velden['start_eerste_helft'] = neo_ls_nu();
+	}
 	if ( 'rust' === $wedstrijd->status && 'bezig' === $status ) {
 		$velden['start_tweede_helft'] = neo_ls_nu();
+	}
+	// Terug naar Gepland (verkeerd getikt): de klok begint opnieuw als hij echt start.
+	if ( 'gepland' === $status ) {
+		$velden['start_eerste_helft'] = null;
+		$velden['start_tweede_helft'] = null;
 	}
 
 	$wpdb->update( neo_ls_tabel( 'wedstrijd' ), $velden, array( 'id' => $wedstrijd_id ) );

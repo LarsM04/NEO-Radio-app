@@ -172,7 +172,7 @@ kun je het live-score-scherm bouwen zonder de lokale WordPress.
 | --- | --- |
 | `aftrap` | Datum en tijd in ISO 8601. In JavaScript: `new Date(wedstrijd.aftrap)` |
 | `status` | `gepland`, `bezig`, `rust` of `afgelopen` |
-| `minuut` | De minuut waarin de wedstrijd nu is. Alleen bij `bezig`, anders `null`. In blessuretijd is dit 45 of 90 |
+| `minuut` | De minuut waarin de wedstrijd nu is. Alleen bij `bezig`, anders `null`. In blessuretijd is dit 45 of 90. De klok loopt vanaf het moment dat de wedstrijd echt op Bezig is gezet (en de tweede helft vanaf Rust → Bezig), niet vanaf de geplande aftrap |
 | `extra` | Blessuretijd: het aantal minuten na de 45e of 90e minuut, anders `null` |
 | `minuut_tekst` | De minuut om te tonen, bijvoorbeeld `"67"` of `"45+2"`. Gebruik dit in de app |
 | `logo` | Link naar het clublogo, of `null` als er geen logo is |
@@ -200,6 +200,8 @@ is 30 dagen geldig. Na 5 verkeerde wachtwoorden moet je een kwartier wachten.
 | `POST /neo/v1/beheer/wedstrijden/{id}/gebeurtenissen` | `{ kant, type, minuut?, extra?, speler? }`. Zonder minuut: de minuut van nu, ook in blessuretijd. `extra` mag alleen bij minuut 45 of 90 |
 | `PUT /neo/v1/beheer/gebeurtenissen/{id}` | Gebeurtenis aanpassen; de stand past zich aan |
 | `DELETE /neo/v1/beheer/gebeurtenissen/{id}` | Gebeurtenis verwijderen (ook voor *Ongedaan maken*) |
+
+Een beheer-wedstrijd heeft ook `start_eerste_helft` en `start_tweede_helft`: wanneer de helften echt begonnen. Daarmee rekent de app de minuut zelf uit. Terug naar Gepland wist ze allebei.
 
 Een beheer-wedstrijd heeft ook `spelers`: de namen die eerder bij de thuis- en uitclub zijn
 ingevuld, de laatst gebruikte eerst. De app toont ze als tikknoppen, zodat je namen niet steeds

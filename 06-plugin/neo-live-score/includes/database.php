@@ -80,6 +80,7 @@ CREATE TABLE $wedstrijd (
   thuisclub_id bigint(20) unsigned NOT NULL,
   uitclub_id bigint(20) unsigned NOT NULL,
   aftrap datetime NOT NULL,
+  start_eerste_helft datetime DEFAULT NULL,
   start_tweede_helft datetime DEFAULT NULL,
   status varchar(20) NOT NULL DEFAULT 'gepland',
   bijgehouden_door bigint(20) unsigned DEFAULT NULL,
