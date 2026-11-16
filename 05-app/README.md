@@ -4,6 +4,9 @@ De code van de NEO Radio app, gebouwd met **React Native + Expo** (JavaScript) e
 **Expo Router**. Hoe de app technisch in elkaar zit, staat in het
 [technisch ontwerp](../04-ontwerp/technisch-ontwerp/technisch-ontwerp-neo-radio-app.pdf).
 
+We leveren de app op als **PWA** (een web-app die je op je beginscherm zet), niet via de
+App Store of Google Play. Tijdens het bouwen testen we in Expo Go én in de browser.
+
 ## Wat heb je nodig?
 
 - [Node.js](https://nodejs.org) (LTS-versie)
@@ -21,6 +24,10 @@ npx expo start
 Scan de QR-code met Expo Go (Android) of met de camera (iPhone). Je telefoon en laptop
 moeten op hetzelfde wifi-netwerk zitten. Lukt dat niet (bijv. op het schoolnetwerk), gebruik
 dan `npx expo start --tunnel`.
+
+**De PWA-versie testen:** start met `npx expo start --web`, of druk op `w` in de terminal
+als Expo al draait. Test dit regelmatig, want niet alles werkt in de browser hetzelfde als in
+Expo Go (bijvoorbeeld audio op de achtergrond en de YouTube-speler).
 
 Een package toevoegen doe je altijd met `npx expo install <naam>` (niet met `npm install`),
 zodat je een versie krijgt die bij onze Expo-versie past.
