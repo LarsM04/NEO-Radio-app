@@ -23,13 +23,17 @@ function neo_ls_admin_bestanden( $hook ) {
 	if ( false === strpos( $hook, 'neo-live-score' ) ) {
 		return;
 	}
-	wp_enqueue_style( 'neo-ls-admin', plugins_url( 'assets/admin.css', NEO_LS_BESTAND ), array(), NEO_LS_VERSIE );
-	wp_enqueue_script( 'neo-ls-admin', plugins_url( 'assets/admin.js', NEO_LS_BESTAND ), array(), NEO_LS_VERSIE, true );
+	$nodig = array();
 
-	// De mediabibliotheek, om een clublogo te kiezen.
+	// De mediabibliotheek, om een clublogo te kiezen. admin.js moet ná de mediabibliotheek
+	// laden, anders bestaat wp.media nog niet als admin.js start en doet de knop niets.
 	if ( false !== strpos( $hook, 'neo-live-score-clubs' ) ) {
 		wp_enqueue_media();
+		$nodig[] = 'media-editor';
 	}
+
+	wp_enqueue_style( 'neo-ls-admin', plugins_url( 'assets/admin.css', NEO_LS_BESTAND ), array(), NEO_LS_VERSIE );
+	wp_enqueue_script( 'neo-ls-admin', plugins_url( 'assets/admin.js', NEO_LS_BESTAND ), $nodig, NEO_LS_VERSIE, true );
 }
 
 /**
