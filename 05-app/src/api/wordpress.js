@@ -11,11 +11,11 @@ const BASIS_URL = 'https://www.neoradio.nl/wp-json';
 const EXPO_HOST =
   Platform.OS === 'web' ? window.location.hostname : Constants.expoConfig?.hostUri?.split(':')[0];
 
-// De live-score-plugin draait nog niet op de echte website, alleen op onze lokale
-// testsite (LocalWP). Tijdens het ontwikkelen gaan live-score-verzoeken daarom naar het
+// De live-score-plugin draait nog niet op de echte website. Het adres van de testsite staat
+// in EXPO_PUBLIC_LIVESCORE_URL (05-app/.env: de online testsite, of 05-app/.env.local voor
+// je eigen LocalWP-site). Staat er niets, dan gaan live-score-verzoeken naar het
 // doorgeefluik op de laptop waar `npx expo start` draait (zie 06-plugin/README.md), op
 // hetzelfde adres als waar Expo Go de app vandaan haalt.
-// Een ander adres kun je instellen met EXPO_PUBLIC_LIVESCORE_URL in 05-app/.env.
 export const LIVESCORE_URL =
   process.env.EXPO_PUBLIC_LIVESCORE_URL ||
   (__DEV__ && EXPO_HOST ? `http://${EXPO_HOST}:8787/wp-json` : BASIS_URL);

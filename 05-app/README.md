@@ -79,23 +79,45 @@ na inloggen werkt (ontwerpdocument, Beheer · 13 en 14). Je komt er via de link 
 scherm **Info**, of direct via `/beheer` in de webversie. Inloggen gaat met een
 WordPress-account met de rol *Live-score medewerker* (of beheerder/redacteur).
 
-De live-score-plugin draait nu alleen op onze lokale testsite. Zo test je het met Expo Go:
+De live-score-plugin draait nog niet op de echte website van NEO Radio. We testen hem op twee
+plekken.
 
-1. Start de site **neoradio** in Local.
-2. Start in een tweede terminal het doorgeefluik, zodat je telefoon de lokale site bereikt:
-   `node 06-plugin/ontwikkelen/doorgeefluik.js` (vanuit de map van de repository).
-3. Start de app zoals altijd met `npx expo start` en open hem in Expo Go.
-4. Ga naar **Info → Medewerker? Live score invoeren** en log in. Testaccounts maak je met
-   `wp neo-livescore testdata --leeg --live` (zie [06-plugin](../06-plugin/README.md)).
+### Standaard: de online testsite (Hostinger)
 
-De app vindt het doorgeefluik vanzelf: hij gebruikt hetzelfde adres als waar Expo Go de app
-vandaan haalt, met poort 8787. Een ander adres kun je zetten in `05-app/.env`:
+De plugin staat op een lege WordPress op `https://aqua-gnat-521081.hostingersite.com`. In
+`05-app/.env` staat dat de app daar zijn live scores vandaan haalt:
+
+```
+EXPO_PUBLIC_LIVESCORE_URL=https://aqua-gnat-521081.hostingersite.com/wp-json
+```
+
+1. Start de app met `npx expo start -c` (de `-c` is alleen nodig de eerste keer na een wijziging
+   in `.env`). `--tunnel` mag ook.
+2. Ga naar **Info → Medewerker? Live score invoeren** en log in met je account op de testsite.
+   Een account vraag je aan Lars.
+
+Je telefoon bereikt de testsite gewoon via internet: geen doorgeefluik en geen hotspot nodig.
+
+### Lokaal: je eigen kopie in LocalWP
+
+Wil je testen tegen de site op je eigen laptop, zet dan in `05-app/.env.local` (komt niet in
+GitHub, en gaat vóór `.env`) het adres van het doorgeefluik, met het IP-adres van je laptop:
 
 ```
 EXPO_PUBLIC_LIVESCORE_URL=http://192.168.1.20:8787/wp-json
 ```
 
-**Telefoon en laptop moeten op hetzelfde netwerk zitten, en je start de app zónder `--tunnel`.**
+1. Start de site **neoradio** in Local.
+2. Start in een tweede terminal het doorgeefluik, zodat je telefoon de lokale site bereikt:
+   `node 06-plugin/ontwikkelen/doorgeefluik.js` (vanuit de map van de repository).
+3. Start de app met `npx expo start -c` en open hem in Expo Go.
+4. Ga naar **Info → Medewerker? Live score invoeren** en log in. Testaccounts maak je met
+   `wp neo-livescore testdata --leeg --live` (zie [06-plugin](../06-plugin/README.md)).
+
+Zonder `.env` en `.env.local` zoekt de app het doorgeefluik zelf: hij gebruikt hetzelfde adres
+als waar Expo Go de app vandaan haalt, met poort 8787.
+
+**Telefoon en laptop moeten dan op hetzelfde netwerk zitten, en je start de app zónder `--tunnel`.**
 Met `--tunnel` kan de telefoon de testsite op je laptop niet bereiken. Op school (eduroam) kunnen
 apparaten elkaar meestal niet zien. Zet daar een **hotspot** aan op je telefoon, verbind je laptop
 met die hotspot en start de app met `npx expo start`.

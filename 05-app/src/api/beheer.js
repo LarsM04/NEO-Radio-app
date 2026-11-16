@@ -43,9 +43,10 @@ async function verzoek(pad, { methode = 'GET', body } = {}) {
           'Zet een hotspot aan op je telefoon, verbind je laptop daarmee en start de app met `npx expo start` (zonder --tunnel).'
       );
     }
-    throw new Error(
-      `Geen verbinding met de website (${LIVESCORE_URL}). Staat het doorgeefluik aan en zit je telefoon op hetzelfde netwerk als de laptop?`
-    );
+    const tip = LIVESCORE_URL.startsWith('https://')
+      ? 'Heeft je telefoon internet?'
+      : 'Staat het doorgeefluik aan en zit je telefoon op hetzelfde netwerk als de laptop?';
+    throw new Error(`Geen verbinding met de website (${LIVESCORE_URL}). ${tip}`);
   }
 
   const data = await antwoord.json().catch(() => null);
