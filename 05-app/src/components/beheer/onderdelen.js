@@ -36,13 +36,16 @@ export function ClubLogo({ logo, grootte = 32, opDonker = false }) {
   );
 }
 
-// "● Live 67'", "Rust", "Afgelopen" of "Aftrap 16:30"
-export function StatusLabel({ wedstrijd, minuut }) {
+// "● Live 67'", "Rust", "Afgelopen" of "Aftrap 16:30".
+// Met klok (bijv. "66:12") staat de lopende klok in het label in plaats van de minuut.
+export function StatusLabel({ wedstrijd, minuut, klok }) {
   const { status } = wedstrijd;
   if (status === 'bezig') {
     return (
       <View style={[styles.label, { backgroundColor: k.liveRood }]}>
-        <Text style={[styles.labelTekst, { color: k.wit }]}>● Live{minuut ? ` ${minuut}'` : ''}</Text>
+        <Text style={[styles.labelTekst, styles.labelCijfers, { color: k.wit }]}>
+          ● Live{klok ? ` ${klok}` : minuut ? ` ${minuut}'` : ''}
+        </Text>
       </View>
     );
   }
@@ -167,6 +170,10 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '700',
     color: k.zwart,
+  },
+  // Cijfers even breed, zodat het label niet van breedte verandert als de seconden tellen.
+  labelCijfers: {
+    fontVariant: ['tabular-nums'],
   },
   knop: {
     minHeight: 48,

@@ -4,7 +4,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { beheerKleuren as k } from './hulp';
 import { ClubLogo, Knop, StatusLabel } from './onderdelen';
 
-export default function WedstrijdKaart({ wedstrijd, minuut, magOvernemen, bezig, onOpen, onBijhouden }) {
+export default function WedstrijdKaart({ wedstrijd, minuut, klok, magOvernemen, bezig, onOpen, onBijhouden }) {
   const { door_mij: doorMij, bijgehouden_door: door, score } = wedstrijd;
   const vrij = !door;
 
@@ -26,7 +26,7 @@ export default function WedstrijdKaart({ wedstrijd, minuut, magOvernemen, bezig,
       ))}
 
       <View style={styles.voet}>
-        <StatusLabel wedstrijd={wedstrijd} minuut={minuut} />
+        <StatusLabel wedstrijd={wedstrijd} minuut={minuut} klok={klok} />
         <Text style={styles.wie} numberOfLines={2}>
           {doorMij ? 'Jij houdt deze bij' : vrij ? 'Nog niemand' : `${door.naam} houdt deze bij`}
         </Text>

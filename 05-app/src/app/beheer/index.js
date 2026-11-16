@@ -23,7 +23,7 @@ import {
   NietIngelogdFout,
   uitloggen,
 } from '../../api/beheer';
-import { bevestig, beheerKleuren as k, datumTekst, huidigeMinuut, minuutTekst, toonFout } from '../../components/beheer/hulp';
+import { bevestig, beheerKleuren as k, datumTekst, huidigeMinuut, klokTekst, minuutTekst, toonFout } from '../../components/beheer/hulp';
 import { Knop } from '../../components/beheer/onderdelen';
 import WedstrijdKaart from '../../components/beheer/WedstrijdKaart';
 
@@ -161,14 +161,16 @@ function MijnWedstrijden({ gebruiker, onUitgelogd }) {
 
   // Zolang dit scherm open is: ophalen, en elke 15 seconden opnieuw
   // (zo zie je ook wedstrijden die een collega net is gaan bijhouden).
+  // De klok van lopende wedstrijden tikt elke seconde.
   useFocusEffect(
     useCallback(() => {
       ophalen();
-      const klok = setInterval(() => {
-        setNu(Date.now());
-        ophalen();
-      }, VERVERS_SECONDEN * 1000);
-      return () => clearInterval(klok);
+      const verversen = setInterval(ophalen, VERVERS_SECONDEN * 1000);
+      const teller = setInterval(() => setNu(Date.now()), 1000);
+      return () => {
+        clearInterval(verversen);
+        clearInterval(teller);
+      };
     }, [ophalen])
   );
 
@@ -246,6 +248,7 @@ function MijnWedstrijden({ gebruiker, onUitgelogd }) {
                 key={wedstrijd.id}
                 wedstrijd={wedstrijd}
                 minuut={minuutTekst(huidigeMinuut(wedstrijd, nu))}
+                klok={klokTekst(wedstrijd, nu)}
                 magOvernemen={gebruiker.beheren}
                 bezig={bezigMet === wedstrijd.id}
                 onOpen={() => router.push(`/beheer/${wedstrijd.id}`)}
