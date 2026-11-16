@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       NEO Live Score
  * Description:       Live scores van het amateurvoetbal invoeren en tonen op de website en in de NEO Radio-app. Vervangt Soccer Live Scores.
- * Version:           0.1.1
+ * Version:           0.1.2
  * Requires at least: 6.5
  * Requires PHP:      8.0
  * Author:            Lars Mudde, Sultan Avdi, Duzyano Ramkhelawan
@@ -11,8 +11,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'NEO_LS_VERSIE', '0.1.1' );
-define( 'NEO_LS_DB_VERSIE', '3' );
+define( 'NEO_LS_VERSIE', '0.1.2' );
+define( 'NEO_LS_DB_VERSIE', '4' );
 define( 'NEO_LS_BESTAND', __FILE__ );
 define( 'NEO_LS_PAD', plugin_dir_path( __FILE__ ) );
 

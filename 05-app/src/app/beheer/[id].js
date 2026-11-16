@@ -27,6 +27,23 @@ const STATUSSEN = [
   { waarde: 'afgelopen', tekst: 'Afgelopen' },
 ];
 
+// De volgende stap in de wedstrijd, als grote knop. Tik je hem op het moment zelf,
+// dan loopt de klok gelijk met de scheidsrechter.
+function volgendeStap(wedstrijd) {
+  if (wedstrijd.status === 'gepland') {
+    return { status: 'bezig', tekst: '▶  Aftrap: wedstrijd begint' };
+  }
+  if (wedstrijd.status === 'rust') {
+    return { status: 'bezig', tekst: '▶  Tweede helft begint' };
+  }
+  if (wedstrijd.status === 'bezig') {
+    return wedstrijd.start_tweede_helft
+      ? { status: 'afgelopen', tekst: 'Eindsignaal: wedstrijd afgelopen' }
+      : { status: 'rust', tekst: 'Rust' };
+  }
+  return null;
+}
+
 export default function WedstrijdBijhoudenScherm() {
   const { id } = useLocalSearchParams();
   const [wedstrijd, setWedstrijd] = useState(null);
@@ -184,6 +201,7 @@ export default function WedstrijdBijhoudenScherm() {
   const minuut = minuutTekst(huidigeMinuut(wedstrijd, nu));
   const score = wedstrijd.score || { thuis: 0, uit: 0 };
   const vanIemandAnders = !wedstrijd.door_mij && !!wedstrijd.bijgehouden_door;
+  const stap = volgendeStap(wedstrijd);
   // Nieuwste bovenaan: eerst op minuut (45+2 na 45), dan op volgorde van invoeren.
   const gebeurtenissen = [...wedstrijd.gebeurtenissen].sort(
     (a, b) => (b.minuut ?? 0) - (a.minuut ?? 0) || (b.extra ?? 0) - (a.extra ?? 0) || b.id - a.id
@@ -234,6 +252,15 @@ export default function WedstrijdBijhoudenScherm() {
           </View>
         ) : (
           <>
+            {stap && (
+              <Knop
+                tekst={stap.tekst}
+                onPress={() => statusKiezen(stap.status)}
+                uit={opslaan === 'bezig'}
+                style={styles.stap}
+              />
+            )}
+
             {/* +1 onder je duim */}
             <View style={styles.rij}>
               {['thuis', 'uit'].map((kant) => (
@@ -261,7 +288,9 @@ export default function WedstrijdBijhoudenScherm() {
 
             <Text style={styles.kopje}>Status</Text>
             <Keuzes opties={STATUSSEN} gekozen={wedstrijd.status} onKies={statusKiezen} uit={opslaan === 'bezig'} />
-            <Text style={styles.klein}>Bij Rust wordt de ruststand vanzelf opgeslagen.</Text>
+            <Text style={styles.klein}>
+              Verkeerd getikt? Kies hier de juiste status. Bij Rust wordt de ruststand vanzelf opgeslagen.
+            </Text>
           </>
         )}
 
@@ -427,6 +456,11 @@ const styles = StyleSheet.create({
   rij: {
     flexDirection: 'row',
     gap: 12,
+    marginBottom: 12,
+  },
+  stap: {
+    minHeight: 56,
+    borderRadius: 16,
     marginBottom: 12,
   },
   plus: {

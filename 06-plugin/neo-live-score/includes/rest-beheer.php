@@ -294,6 +294,7 @@ function neo_ls_beheer_json( $wedstrijd_id ) {
 
 	return $json + array(
 		'klasse'             => $klasse ? neo_ls_klasse_als_json( $klasse ) : null,
+		'start_eerste_helft' => neo_ls_iso( $ruw->start_eerste_helft ),
 		'start_tweede_helft' => neo_ls_iso( $ruw->start_tweede_helft ),
 		'bijgehouden_door'   => $door ? array(
 			'id'   => (int) $door->ID,

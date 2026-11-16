@@ -43,7 +43,10 @@ export function huidigeMinuut(wedstrijd, nu = Date.now()) {
     return null;
   }
   const tweedeHelft = !!wedstrijd.start_tweede_helft;
-  const start = Date.parse(tweedeHelft ? wedstrijd.start_tweede_helft : wedstrijd.aftrap);
+  // Vanaf het moment dat de helft echt begon; bij oude wedstrijden vanaf de geplande aftrap.
+  const start = Date.parse(
+    tweedeHelft ? wedstrijd.start_tweede_helft : wedstrijd.start_eerste_helft || wedstrijd.aftrap
+  );
   const gespeeld = (tweedeHelft ? 46 : 1) + Math.floor(Math.max(0, nu - start) / 60000);
   const einde = tweedeHelft ? 90 : 45;
 
