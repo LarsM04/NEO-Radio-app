@@ -1,8 +1,8 @@
 # 02 – Trello
 
-We houden onze planning en taken bij op Trello.
+We houden onze planning en taken bij in GitHub Projects.
 
-**Link naar het bord:** _[vul hier de link naar het Trello-bord in]_
+**Link naar het bord:** [NEO Radio-app op GitHub Projects](https://github.com/users/LarsM04/projects/2)
 
 ## Lijsten op het bord
 
