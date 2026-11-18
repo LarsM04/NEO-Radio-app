@@ -78,7 +78,8 @@ export default function TabsLayout() {
           ),
         }}
       />
-      <Tabs.Screen name="livescore" options={knop('Score', 'scoreboard')} />
+      {/* Live score heeft zijn eigen grote titel bovenin, zoals in het ontwerp. */}
+      <Tabs.Screen name="livescore" options={{ ...knop('Score', 'scoreboard'), headerShown: false }} />
       <Tabs.Screen name="nieuws" options={knop('Nieuws', 'newspaper-variant')} />
       <Tabs.Screen name="live" options={knop('Live', 'radio', true)} />
       <Tabs.Screen name="info" options={knop('Info', 'information')} />
