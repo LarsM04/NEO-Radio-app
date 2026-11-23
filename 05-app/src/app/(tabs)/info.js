@@ -2,18 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Image, ImageBackground, Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { kleuren } from '../../constants/kleuren';
-
-// Kleuren: eerst die van jullie kleuren.js, anders de huisstijlkleur uit het onderzoek.
-const K = {
-  groen: kleuren.groen ?? '#81BB19',
-  donkergroen: kleuren.donkergroen ?? '#355F13',
-  zwart: kleuren.zwart ?? '#171614',
-  wit: kleuren.wit ?? '#FFFFFF',
-  licht: '#F3F6EE',
-  rand: '#E3EAD8',
-  grijs: '#575760',
-};
+import { K } from '../../lib/nieuwsHelpers';
 
 // ---- Gegevens (uit het onderzoek en de ontwerp-pdf) ----
 const ADRES = 'Gerberastraat 46, 2431 XN Noorden';
@@ -40,10 +29,10 @@ const SOCIAL = [
   { naam: 'Bluesky', url: null },
 ];
 
-// Zet hier later de luchtfoto en het logo uit de map beeldmateriaal/ en logo/ van het onderzoek:
-// bijv. require('../../../assets/luchtfoto.jpg'). Zolang het null is, zie je een groene balk.
+// Zet hier later de luchtfoto uit de map beeldmateriaal/ van het onderzoek,
+// bijv. require('../../../assets/luchtfoto.jpg'). Zolang LUCHTFOTO null is, zie je een groene balk.
 const LUCHTFOTO = null;
-const LOGO = null;
+const LOGO = require('../../../assets/neo-logo.png');
 
 const open = (url) => Linking.openURL(url).catch(() => { });
 
