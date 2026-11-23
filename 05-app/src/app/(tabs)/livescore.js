@@ -3,7 +3,7 @@
 // dan ververst het scherm elke 10 seconden, anders elke minuut.
 // "Eerdere uitslagen" komt uit /neo/v1/klassen en /neo/v1/uitslagen.
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { useFocusEffect } from 'expo-router';
+import { Link, useFocusEffect } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -112,6 +112,11 @@ export default function LivescoreScherm() {
         ) : (
           <EerdereUitslagen livescore={data} />
         )}
+
+        {/* Ingang naar het beheer (live score invoeren langs het veld). Klein en rustig onderaan. */}
+        <Link href="/beheer" style={styles.medewerkers}>
+          <Text style={styles.medewerkersTekst}>Medewerker? Live score invoeren ›</Text>
+        </Link>
       </ScrollView>
     </View>
   );
@@ -400,6 +405,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingTop: 18,
     paddingBottom: 32,
+  },
+  medewerkers: {
+    alignSelf: 'center',
+    padding: 16,
+    marginTop: 16,
+  },
+  medewerkersTekst: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: k.grijs,
   },
   fout: {
     color: k.liveRood,
