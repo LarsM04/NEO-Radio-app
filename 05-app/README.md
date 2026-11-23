@@ -76,7 +76,7 @@ overleg, en dan in een kleine aparte commit. Zo voorkom je merge-conflicten.
 
 Medewerkers van NEO Radio houden de stand bij in de app zelf, in een apart deel dat alleen
 na inloggen werkt (ontwerpdocument, Beheer · 13 en 14). Je komt er via de link onderaan het
-scherm **Info**, of direct via `/beheer` in de webversie. Inloggen gaat met een
+scherm **Live score**, of direct via `/beheer` in de webversie. Inloggen gaat met een
 WordPress-account met de rol *Live-score medewerker* (of beheerder/redacteur).
 
 De live-score-plugin draait nog niet op de echte website van NEO Radio. We testen hem op twee
