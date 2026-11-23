@@ -13,6 +13,6 @@ Ons eigen ontwerp van de NEO Radio app, van eerste idee tot prototype.
 ## Wat staat er al?
 
 - [Ontwerpdocument NEO Radio app](designs/ontwerpdocument-neo-radio-app.pdf) (bijgewerkt 12 oktober 2026, met het invoerscherm voor de live score)
-- [Technisch ontwerp NEO Radio app](technisch-ontwerp/technisch-ontwerp-neo-radio-app.pdf) (bijgewerkt 12 oktober 2026)
+- [Technisch ontwerp NEO Radio app](technisch-ontwerp/technisch-ontwerp-neo-radio-app.pdf) (bijgewerkt 9 november 2026: de app wordt een PWA in plaats van een app in de stores)
 
 Tip: geef schermen een duidelijke naam met versienummer, bijv. `homescreen-v2.png`.

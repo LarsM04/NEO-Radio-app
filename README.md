@@ -57,6 +57,9 @@ app eruit kan zien. Dat gebruiken we als startpunt.
 **Gekozen techniek** (uit het onderzoek techniek en hosting):
 
 - De app bouwen we met **React Native + Expo** (één codebase voor iPhone, iPad en Android).
+- We leveren de app op als **PWA**: je opent hem in de browser en zet hem op je beginscherm.
+  Hij komt (voorlopig) niet in de App Store of Google Play. Dat hebben we op 9 november 2026
+  besloten, omdat publiceren in de stores te ingewikkeld is voor dit project.
 - De content komt uit de bestaande **WordPress**-website via de WordPress REST API.
 - Voor de live scores maken we een **eigen WordPress-plugin**, zodat NEO Radio alles in één
   admin-systeem beheert. Er is geen extra server of hosting nodig.
