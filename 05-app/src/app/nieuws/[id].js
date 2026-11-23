@@ -3,18 +3,8 @@ import { useEffect, useState } from 'react';
 import { ActivityIndicator, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import * as wordpress from '../../api/wordpress';
+import { haalBerichtOp } from '../../api/wordpress';
 import { K, maakDatum, naarBericht } from '../../lib/nieuwsHelpers';
-
-// Gebruikt haalBerichtOp(id) als die bestaat, anders zoekt hij het bericht in de nieuwslijst.
-async function laadBericht(id) {
-  if (typeof wordpress.haalBerichtOp === 'function') {
-    return naarBericht(await wordpress.haalBerichtOp(id));
-  }
-  const lijst = await wordpress.haalNieuwsOp();
-  const gevonden = lijst.find((p) => String(p.id) === String(id));
-  return gevonden ? naarBericht(gevonden) : null;
-}
 
 export default function NieuwsberichtScherm() {
   const { id } = useLocalSearchParams();
@@ -24,8 +14,8 @@ export default function NieuwsberichtScherm() {
   const [fout, setFout] = useState(null);
 
   useEffect(() => {
-    laadBericht(id)
-      .then(setBericht)
+    haalBerichtOp(id)
+      .then((p) => setBericht(naarBericht(p)))
       .catch((e) => setFout(e.message))
       .finally(() => setLaden(false));
   }, [id]);

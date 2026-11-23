@@ -1,5 +1,5 @@
 import { Link } from 'expo-router';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -10,19 +10,18 @@ export default function NieuwsScherm() {
   const [berichten, setBerichten] = useState([]);
   const [laden, setLaden] = useState(true);
   const [fout, setFout] = useState(null);
-  const [rubriek, setRubriek] = useState('Alles');
+  const [rubriek, setRubriek] = useState(RUBRIEKEN[0]);
 
   useEffect(() => {
-    haalNieuwsOp()
-      .then((lijst) => setBerichten(lijst.map(naarBericht)))
-      .catch((e) => setFout(e.message))
-      .finally(() => setLaden(false));
-  }, []);
-
-  const getoond = useMemo(
-    () => (rubriek === 'Alles' ? berichten : berichten.filter((b) => b.rubriek === rubriek)),
-    [berichten, rubriek]
-  );
+    let actueel = true; // snel wisselen van rubriek: een oud antwoord mag de lijst niet overschrijven
+    setLaden(true);
+    setFout(null);
+    haalNieuwsOp(rubriek.id)
+      .then((lijst) => actueel && setBerichten(lijst.map(naarBericht)))
+      .catch((e) => actueel && setFout(e.message))
+      .finally(() => actueel && setLaden(false));
+    return () => { actueel = false; };
+  }, [rubriek]);
 
   return (
     <SafeAreaView style={s.scherm} edges={['top']}>
@@ -31,9 +30,10 @@ export default function NieuwsScherm() {
       <View>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={s.knoppen}>
           {RUBRIEKEN.map((r) => (
-            <Pressable key={r} onPress={() => setRubriek(r)} accessibilityRole="button"
+            <Pressable key={r.naam} onPress={() => setRubriek(r)} accessibilityRole="button"
+              accessibilityState={{ selected: r === rubriek }}
               style={[s.knop, r === rubriek && s.knopActief]}>
-              <Text style={s.knopTekst}>{r}</Text>
+              <Text style={s.knopTekst}>{r.naam}</Text>
             </Pressable>
           ))}
         </ScrollView>
@@ -45,7 +45,7 @@ export default function NieuwsScherm() {
         <Text style={s.leeg}>{fout}</Text>
       ) : (
         <FlatList
-          data={getoond}
+          data={berichten}
           keyExtractor={(b) => b.id}
           contentContainerStyle={{ padding: 16, paddingBottom: 140 }}
           ListEmptyComponent={<Text style={s.leeg}>Er is nog geen nieuws in deze rubriek.</Text>}

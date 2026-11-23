@@ -11,7 +11,14 @@ export const K = {
   grijs: '#575760',
 };
 
-export const RUBRIEKEN = ['Alles', 'Voetbalnieuws', 'Overig sportnieuws', 'Algemeen nieuws', "Theo's Mening"];
+// id = categorie-ID op neoradio.nl (zie /wp-json/wp/v2/categories).
+export const RUBRIEKEN = [
+  { naam: 'Alles', id: null },
+  { naam: 'Voetbalnieuws', id: 121 },
+  { naam: 'Overig sportnieuws', id: 120 },
+  { naam: 'Algemeen nieuws', id: 132 },
+  { naam: "Theo's Mening", id: 131 },
+];
 
 const ontcijfer = (s = '') =>
   String(s)
