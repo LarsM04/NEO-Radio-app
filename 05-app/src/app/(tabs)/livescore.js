@@ -11,11 +11,15 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { haalKlassenOp, haalLivescoreOp, haalUitslagenOp } from '../../api/wordpress';
 import { beheerKleuren as k, datumTekst, tijd } from '../../components/beheer/hulp';
 import { ClubLogo, Keuzes } from '../../components/beheer/onderdelen';
+import { useTablet } from '../../constants/scherm';
 
 const GEEL = '#f5c400';
 
 export default function LivescoreScherm() {
   const boven = useSafeAreaInsets().top;
+  // Tablet (ontwerp iPad · 7): "Deze ronde" en "Eerdere uitslagen" naast elkaar, zonder tabs.
+  const tablet = useTablet();
+  const breedte = tablet ? styles.breedteTablet : styles.breedte;
   const [tab, setTab] = useState('ronde');
   const [data, setData] = useState(null);
   const [fout, setFout] = useState(null);
@@ -43,31 +47,40 @@ export default function LivescoreScherm() {
 
   const datum = data?.klassen[0]?.datum;
 
+  const titel = (
+    <>
+      <Text style={styles.titel} accessibilityRole="header">
+        Live score
+      </Text>
+      {datum && <Text style={styles.ondertitel}>Laatste speelronde · {datumTekst(datum).toLowerCase()}</Text>}
+    </>
+  );
+
   return (
-    <View style={styles.scherm}>
-      <View style={[styles.kop, { paddingTop: boven + 16 }]}>
-        <View style={styles.breedte}>
-          <Text style={styles.titel} accessibilityRole="header">
-            Live score
-          </Text>
-          {datum && <Text style={styles.ondertitel}>Laatste speelronde · {datumTekst(datum).toLowerCase()}</Text>}
-          <View style={styles.tabs}>
-            <Keuzes
-              opties={[
-                { waarde: 'ronde', tekst: 'Deze ronde' },
-                { waarde: 'eerder', tekst: 'Eerdere uitslagen' },
-              ]}
-              gekozen={tab}
-              onKies={setTab}
-            />
+    <View style={[styles.scherm, tablet && styles.schermTablet]}>
+      {/* Op de tablet geen vaste kopbalk: de titel staat boven de kolommen en scrolt mee (ontwerp iPad · 7). */}
+      {!tablet && (
+        <View style={[styles.kop, { paddingTop: boven + 16 }]}>
+          <View style={breedte}>
+            {titel}
+            <View style={styles.tabs}>
+              <Keuzes
+                opties={[
+                  { waarde: 'ronde', tekst: 'Deze ronde' },
+                  { waarde: 'eerder', tekst: 'Eerdere uitslagen' },
+                ]}
+                gekozen={tab}
+                onKies={setTab}
+              />
+            </View>
           </View>
         </View>
-      </View>
+      )}
 
       <ScrollView
-        contentContainerStyle={[styles.breedte, styles.inhoud]}
+        contentContainerStyle={[breedte, styles.inhoud, tablet && { paddingTop: boven + 32, paddingHorizontal: 32 }]}
         refreshControl={
-          tab === 'ronde' ? (
+          tab === 'ronde' || tablet ? (
             <RefreshControl
               refreshing={verversen}
               onRefresh={async () => {
@@ -79,7 +92,22 @@ export default function LivescoreScherm() {
           ) : undefined
         }
       >
-        {tab === 'ronde' ? (
+        {tablet ? (
+          <>
+            <View style={styles.titelTablet}>{titel}</View>
+            <View style={styles.kolommen}>
+              <View style={styles.kolom}>
+                <DezeRonde data={data} fout={fout} />
+              </View>
+              <View style={styles.kolom}>
+                <Text style={styles.kolomTitel} accessibilityRole="header">
+                  Eerdere uitslagen
+                </Text>
+                <EerdereUitslagen livescore={data} />
+              </View>
+            </View>
+          </>
+        ) : tab === 'ronde' ? (
           <DezeRonde data={data} fout={fout} />
         ) : (
           <EerdereUitslagen livescore={data} />
@@ -322,6 +350,31 @@ const styles = StyleSheet.create({
     width: '100%',
     maxWidth: 560,
     alignSelf: 'center',
+  },
+  schermTablet: {
+    backgroundColor: k.wit,
+  },
+  titelTablet: {
+    marginBottom: 20,
+  },
+  breedteTablet: {
+    width: '100%',
+    maxWidth: 1100,
+    alignSelf: 'center',
+  },
+  kolommen: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 24,
+  },
+  kolom: {
+    flex: 1,
+  },
+  kolomTitel: {
+    fontSize: 22,
+    fontWeight: '900',
+    color: k.zwart,
+    marginBottom: 12,
   },
   kop: {
     backgroundColor: k.wit,
