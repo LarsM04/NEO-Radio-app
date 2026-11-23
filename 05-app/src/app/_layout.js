@@ -17,6 +17,8 @@ export default function RootLayout() {
         <Stack.Screen name="nieuws/[id]" options={{ title: 'Nieuwsbericht' }} />
         <Stack.Screen name="live/luisteren" options={{ title: 'Live luisteren' }} />
         <Stack.Screen name="live/kijken" options={{ title: 'Live kijken' }} />
+        {/* Beheer: scores invoeren langs het veld, alleen voor medewerkers */}
+        <Stack.Screen name="beheer" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style="dark" />
     </>
